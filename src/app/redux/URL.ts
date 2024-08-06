@@ -1,0 +1,9 @@
+export const BASE_URL = '';
+export const LOGIN_URL = '/api/Account/login';
+export const REGISTER_URL = `/api/Account/register`;
+export const PRODUCT_URL = '/api/Product';
+export const CATEGORY_URL = '/api/Category';
+export const SUPPLIER_URL = '/api/Supplier';
+export const ORDERITEM_URL = '/api/OrderItem';
+export const ORDER_URL = '/api/Order';
+export const CUSTOMER_URL = '/api/Customer';
