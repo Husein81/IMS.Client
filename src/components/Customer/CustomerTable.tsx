@@ -2,20 +2,27 @@
 import { Box, IconButton } from "@mui/material"
 import { DataGrid, GridColDef } from "@mui/x-data-grid"
 import { ColorSet } from "../../Theme"
-import { Customer } from "../../app/models/Customer";
 import { Delete, Edit } from "@mui/icons-material";
 import { useDeleteCustomerMutation } from "../../app/redux/Slice/customerApi";
 import { useDispatch } from "react-redux";
+import { Pagination } from "../../app/models/Pagination/pagination";
+import { GridInitialStateCommunity } from "@mui/x-data-grid/models/gridStateCommunity";
+import { CustomerPagination } from "../../app/models/Pagination/CustomerPagination";
 
 type Props = {
     colors: ColorSet;
-    customers:Customer[];
+    customers:CustomerPagination;
+    pageModel: Pagination;
+    setPageModel: React.Dispatch<React.SetStateAction<Pagination>>;
     refetch: () => any;
 }
-const CustomerTable: React.FC<Props> = ({ colors, customers, refetch }) => {
+const CustomerTable: React.FC<Props> = ({ colors,pageModel ,setPageModel, customers, refetch }) => {
     const dispatch = useDispatch();
     const [deleteCustomer] = useDeleteCustomerMutation();
 
+    const handlePaginationChange = (modal: {pageSize:number, page:number}) => {
+      setPageModel(modal);
+    };
     const handleDelete = async (id: string) => {
         try{
             dispatch(await deleteCustomer(id).unwrap());
@@ -63,14 +70,28 @@ const CustomerTable: React.FC<Props> = ({ colors, customers, refetch }) => {
             )
         }
     ]
+    const initialState: GridInitialStateCommunity = { 
+      pagination:{
+        paginationModel:{
+          page: pageModel.page + 1,
+          pageSize: pageModel.pageSize,
+        }
+      }
+    };
 
     
   return (
     <Box>
         <DataGrid
             sx={DataGridStyle}
-            rows={customers}
+            rows={customers.items}
             columns={columns}
+            paginationMode="server"
+            initialState={initialState}
+            pageSizeOptions={[10, 25, 50, 100]}
+            paginationModel={{ pageSize: pageModel.pageSize, page: pageModel.page }}
+            onPaginationModelChange={(model) => handlePaginationChange(model)}
+            rowCount={customers?.pagination.totalCount || 0}  
         />
     </Box>
   )

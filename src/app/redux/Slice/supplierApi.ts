@@ -1,3 +1,5 @@
+import { Pagination } from "../../models/Pagination/pagination";
+import { SupplierPagination } from "../../models/Pagination/SupplierPagination";
 import { Supplier } from "../../models/Supplier";
 import { SUPPLIER_URL } from "../URL";
 import { apiSlice } from "./apiSlice";
@@ -12,11 +14,19 @@ const supplierApi = apiSlice.injectEndpoints({
             providesTags: ["Supplier"],
             keepUnusedDataFor: 5,
         }),
-        getSuppliers: builder.query<Supplier[], void>({
-            query: () => ({
+        getSuppliers: builder.query<SupplierPagination, Pagination>({
+            query: ({page, pageSize}) => ({
                 url: SUPPLIER_URL,
                 method: "GET",
+                params: {
+                    page,
+                    pageSize,
+                },
             }),
+            transformResponse: (response: Supplier[], meta) => {
+                const pagination = JSON.parse(meta?.response?.headers.get('pagination') || '{}');
+                return { items: response, pagination };
+            },
             providesTags:["Supplier"],
             keepUnusedDataFor: 5    ,
         }),
@@ -46,5 +56,7 @@ const supplierApi = apiSlice.injectEndpoints({
 export const {
     useGetSupplierQuery,
     useGetSuppliersQuery,
-    useCreateSupplierMutation
+    useCreateSupplierMutation,
+    useUpdateSupplierMutation,
+    useDeleteSupplierMutation,
 } = supplierApi;

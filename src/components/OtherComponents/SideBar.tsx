@@ -12,6 +12,7 @@ import {
     Category,
     Home,  
     LocalOffer, 
+    LocalShipping, 
     LoginOutlined, 
     LogoutOutlined,
     Receipt,
@@ -51,6 +52,7 @@ const SideBar = () => {
         {name:"Invoice",icon:<Receipt/>, onClick:() => navigate('/invoice')},
         {name:'products', icon:<LocalOffer/>, onClick:() => navigate('/products')},
         {name:'Categories', icon:<Category/>, onClick:() => navigate('/categories')},
+        {name:'Suppliers', icon:<LocalShipping/>, onClick:() => navigate('/suppliers')},
         {name:authContent.name, icon:authContent.icon , onClick:authContent.onClick}
     ];
 
@@ -68,7 +70,7 @@ const SideBar = () => {
                 }} 
                 onClick={item.onClick}>
                     {item.icon}
-                <Typography variant="h5" color={colors.black[800]}>
+                <Typography variant="body1" color={colors.black[800]}>
                     {item.name}
                 </Typography>
             </ListItem>

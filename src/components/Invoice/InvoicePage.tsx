@@ -25,8 +25,6 @@ const InvoicePage = () => {
     setPageModel({ ...pageModel, searchTerm: e.target.value });
   };
 
-  console.log(pageModel.searchTerm, data?.items);
-
   return (
     <Container>
       <Box py={2}  display={'flex'} alignItems={'center'}  justifyContent={'space-between'} gap={2}>
@@ -50,7 +48,7 @@ const InvoicePage = () => {
           </IconButton>
         </Box>
       </Box>
-      <Box pt={2} width={'100%'}>
+      <Box  width={'100%'}>
         <InvoiceTable
           orders={data!}
           pageModel={pageModel}

@@ -54,10 +54,10 @@ const InvoiceTable:React.FC<Props> = ({ orders: data,isLoading, pageModel, setPa
   const handleInvoicePDF = (id: string) => {
     navigate(`/invoice/${id}`);
   }
+  
   const columns: GridColDef[] = [
-    { field: 'orderId', headerName: 'ID', width: 100 },
-    { field: 'orderDate', headerName: 'Date', width: 200 },
     { field: 'customer', headerName: 'Customer', width: 100 },
+    { field: 'orderDate', headerName: 'Date', width: 200 },
     { field: 'orderStatus', headerName: 'Status', width: 100},
     { field: 'totalAmount', headerName: 'Total', width: 100 },
     {
@@ -99,7 +99,7 @@ const InvoiceTable:React.FC<Props> = ({ orders: data,isLoading, pageModel, setPa
 
   const DataGridStyle = {
     backgroundColor:colors.white[600],
-    height: 600,
+    height: 580,
     '& .MuiDataGrid-scrollbar':{
       width:0
     },
@@ -137,7 +137,7 @@ const InvoiceTable:React.FC<Props> = ({ orders: data,isLoading, pageModel, setPa
 
   if(isLoading) return <Loader color={colors.blue[500]}/>
   return (
-    <Box height={600}>
+    <Box >
       <DataGrid
         columns={columns}
         rows={rows}

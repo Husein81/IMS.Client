@@ -10,7 +10,7 @@ import { logout } from "../redux/Slice/authSlice";
 const HomePage = () => {
     const theme = useTheme();
     const colors = token(theme.palette.mode);
-    const dispatch = useDispatch();
+    const dispatch = useDispatch(); 
     const { userInfo } = useSelector((state: RootState) => state.auth);
     console.log(userInfo);
     const handleOpenModal = (body: JSX.Element) => {

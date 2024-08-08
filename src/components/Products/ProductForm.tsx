@@ -7,7 +7,7 @@ import { useGetSuppliersQuery } from "../../app/redux/Slice/supplierApi";
 import { Product } from "../../app/models/Product";
 import { deleteObject, getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage';
 import { app } from "../../fire";
-import { Upload } from "@mui/icons-material";
+import { Cancel, Upload } from "@mui/icons-material";
 import { token } from "../../Theme";
 import { useDispatch } from "react-redux";
 import { closeModal } from "../../app/redux/Slice/modalSlice";
@@ -35,7 +35,7 @@ const ProductForm: React.FC<Props> = ({ id , refetch:refetchAll}) => {
   });
   const currencies: string[] = ['USD', 'EUR', 'LBP'];
   
-  const { data: product, refetch } = useGetProductQuery(id!, { skip: !id });
+  const { data: product, refetch: refetchId } = useGetProductQuery(id!, { skip: !id });
 
   useEffect(() => {
     if (product) {
@@ -43,11 +43,11 @@ const ProductForm: React.FC<Props> = ({ id , refetch:refetchAll}) => {
     }
   }, [product]);
 
-  const { data  } = useGetCategoriesQuery({ page: 1, pageSize: 100 });
-  const { data: suppliers = [] } = useGetSuppliersQuery();
+  const { data  } = useGetCategoriesQuery({ page: 1, pageSize: 10000 });
+  const { data: suppliersList} = useGetSuppliersQuery({ page: 1, pageSize: 10000 });
 
   const categories = data?.items || [];
-
+  const suppliers = suppliersList?.items || [];
   const [createProduct, { isLoading: isLoadingCreate}] = useCreateProductMutation();
   const [updateProduct, {isLoading: isLoadingUpdate}] = useUpdateProductMutation();
   
@@ -123,7 +123,7 @@ const ProductForm: React.FC<Props> = ({ id , refetch:refetchAll}) => {
     try {
       if (id) {
         await updateProduct(formData).unwrap();
-        refetch();
+        refetchId();
       }else await createProduct(formData).unwrap();
     } catch (error) {
       console.error(error);
@@ -206,7 +206,7 @@ const ProductForm: React.FC<Props> = ({ id , refetch:refetchAll}) => {
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => setImages(e.target.files)} multiple />
               <Upload  fontSize="large"/>
             </IconButton>
-            <Button variant="contained" color="secondary" onClick={handleImageSubmit}>
+            <Button variant="contained" color="secondary" sx={{color:'white'}} onClick={handleImageSubmit}>
                 {loadingUpload ? 'Uploading...' : 'Upload'}
             </Button>
           </Box>
@@ -214,19 +214,19 @@ const ProductForm: React.FC<Props> = ({ id , refetch:refetchAll}) => {
             {formData.imageUrls.length > 0 && formData.imageUrls.map((url: string, i: number) => (
               <Box
               key={i}
-              className="flex justify-between p-3 border  items-center rounded-md"
-              width={200}
+              className="flex justify-between p-3 border rounded-md"
+              width={150}
               >
                 <img
                   src={url}
                   alt="listing image"
                   className="w-20 h-20 object-contain rounded-lg"
                 />
-                <Button
-                  sx={{'&:hover':{bgcolor:'transparent'}, color:colors.black[500]}}
+                <IconButton
+                  sx={{'&:hover':{bgcolor:'transparent'},height:'fit-content', color:colors.black[500]}}
                   onClick={() => handleRemoveImage(url, i)} >
-                  Delete
-                </Button>
+                  <Cancel/>
+                </IconButton>
               </Box>
             ))}
           </Box>

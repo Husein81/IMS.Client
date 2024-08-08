@@ -3,11 +3,21 @@ import { Box, Container, IconButton, InputBase, Typography, useTheme } from "@mu
 import { token } from "../../Theme"
 import CustomerTable from "./CustomerTable";
 import { useGetCustomersQuery } from "../../app/redux/Slice/customerApi";
+import { useState } from "react";
+import { Pagination } from "../../app/models/Pagination/pagination";
 
 const CustomerPage = () => {
     const theme = useTheme();
     const colors = token(theme.palette.mode);
-    const {data: customers =[], refetch} = useGetCustomersQuery();
+    const [pageModel, setPageModel] = useState<Pagination>({
+        page:0,
+        pageSize: 10,
+    });
+    const {data, refetch} = useGetCustomersQuery({
+        page: pageModel.page + 1,
+        pageSize: pageModel.pageSize,
+    });
+
   return (
     <Container>
         <Box py={2} display={'flex'} gap={3}  alignItems={'center'} justifyContent={'space-between'} >
@@ -35,7 +45,9 @@ const CustomerPage = () => {
         <Box pt={2}> 
             <CustomerTable 
                 refetch={refetch}
-                customers={customers}
+                pageModel={pageModel}
+                setPageModel={setPageModel}
+                customers={data || {items:[], pagination:{totalCount:0, totalPages:0, currentPage:0, pageSize:0}}}
                 colors={colors}/>
         </Box>
     </Container>

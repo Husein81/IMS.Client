@@ -32,7 +32,7 @@ const ProductsPage = () => {
       pageSize:pageModel.pageSize,
       searchTerm:pageModel.searchTerm || ''
     });
-    console.log(pageModel.searchTerm, data?.items);
+   
    
     const handleAddProduct = () => {
       dispatch(openModal(<ProductForm refetch={refetch}/>));

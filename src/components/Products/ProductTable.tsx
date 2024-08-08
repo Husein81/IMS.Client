@@ -68,8 +68,9 @@ const ProductTable: React.FC<Props>= ({colors, products,pageModel, setPageModel,
       refetch();
     };
     
-    const rows = products?.items.map((product) => {
+    const rows = products?.items.map((product ,index) => {
       return {
+        productId: index +1,
         ...product,
         categoryName: product.category?.name,
         supplierId: product.supplier?.name,

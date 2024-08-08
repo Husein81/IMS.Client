@@ -13,7 +13,6 @@ import {
 import { useState } from "react";
 import { User } from "../../app/models/User";
 import { useRegisterMutation } from "../../app/redux/Slice/userApi";
-import { useNavigate } from "react-router-dom";
 import { closeModal, openModal } from "../../app/redux/Slice/modalSlice";
 import { useDispatch } from "react-redux";
 import { setCredentials } from "../../app/redux/Slice/authSlice";
@@ -22,7 +21,7 @@ import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 
 const RegisterForm = () => {
-    const navigate = useNavigate();
+    
     const dispatch = useDispatch();
     const [register, {isLoading, isError}] = useRegisterMutation();
 
@@ -32,6 +31,7 @@ const RegisterForm = () => {
         email: '',
         password: ''
     })
+  
 
     const [showPassword, setShowPassword] = useState(false);
 
@@ -62,8 +62,9 @@ const RegisterForm = () => {
         try{
             const response = await register(user).unwrap();
             dispatch(setCredentials(response));
+           
             handleClose();
-            navigate('/dashboard');
+            dispatch(openModal(<LoginForm/>))
         }catch(error){
             console.log(error);
         }
@@ -137,6 +138,7 @@ const RegisterForm = () => {
                 </Button>
                 {isError && <Typography variant='body1' color='error'>Registration Failed</Typography>}
             </FormGroup>
+               
             <Typography variant='body1' align='center'>
                 Already have an account? <Button variant={'text'} onClick={handleLogin}>Login</Button>
             </Typography>

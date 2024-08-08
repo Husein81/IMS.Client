@@ -8,6 +8,7 @@ import InvoicePage from '../../components/Invoice/InvoicePage';
 import OrderPage from '../../components/Order/OrderPage';
 import InvoiceDoc from '../../components/Invoice/InvoiceDoc';
 import CustomerPage from '../../components/Customer/CustomerPage';
+import SupplierPage from '../../components/Supplier/SupplierPage';
 
 export const routes : RouteObject[] = [
    { 
@@ -22,6 +23,7 @@ export const routes : RouteObject[] = [
             {path:'invoice', element:<InvoicePage/>},
             {path:'invoice/:id', element:<InvoiceDoc />},
             {path:'customers', element:<CustomerPage/>},
+            {path:'suppliers', element:<SupplierPage/>},
             {path:'*', element:<DashboardPage/>}
         ]
     }

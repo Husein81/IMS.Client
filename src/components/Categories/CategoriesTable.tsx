@@ -58,7 +58,7 @@ const CategoriesTable:React.FC<Props> = ({ colors, isLoading, refetch, categorie
     };
     const DataGridStyle = {
       backgroundColor:colors.white[600], 
-      height: 500,
+      height: 580,
       '& .MuiDataGrid-scrollbar':{
         width:0
       },
