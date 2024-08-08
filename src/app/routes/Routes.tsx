@@ -2,7 +2,7 @@ import App from '../layout/App'
 import { createBrowserRouter, RouteObject } from "react-router-dom"
 import HomePage from '../layout/HomePage';
 import ProductsPage from '../../components/Products/ProductsPage';
-import DashboardPage from '../../components/Dashboard/Dashboard';
+import DashboardPage from '../../components/Dashboard/DashboardPage';
 import CategoriesPage from '../../components/Categories/CategoriesPage';
 import InvoicePage from '../../components/Invoice/InvoicePage';
 import OrderPage from '../../components/Order/OrderPage';

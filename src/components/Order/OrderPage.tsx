@@ -26,7 +26,7 @@ const OrderPage = () => {
 
     const [createOrder, {isLoading:isLoadingCreate}] = useCreateOrderMutation(); 
 
-    const {data: customers =[], refetch} = useGetCustomersQuery();
+    const {data: customers , refetch} = useGetCustomersQuery({page:1, pageSize:1000});
 
     const [selectedCustomer, setSelectedCustomer] = useState<Customer | undefined>(undefined);
     const {data} = useGetProductsQuery({page:1, pageSize:1000});
@@ -98,7 +98,7 @@ const OrderPage = () => {
                 selectedCustomer={selectedCustomer}
                 setSelectedCustomer={setSelectedCustomer}
                 colors={colors} 
-                customers={customers || []}
+                customers={customers?.items || []}
                 products={data?.items || []}
             />
         </Box>

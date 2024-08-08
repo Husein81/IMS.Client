@@ -7,3 +7,4 @@ export const SUPPLIER_URL = '/api/Supplier';
 export const ORDERITEM_URL = '/api/OrderItem';
 export const ORDER_URL = '/api/Order';
 export const CUSTOMER_URL = '/api/Customer';
+export const DASHBOARD_URL = '/api/Dashboard';

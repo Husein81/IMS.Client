@@ -46,7 +46,7 @@ const InvoiceTable:React.FC<Props> = ({ orders: data,isLoading, pageModel, setPa
   const orders = data?.items.map((order:Order) => {
     return {
       ...order,
-      orderDate: new Date(order?.createdAt || '').toISOString().split('T')[0] ,
+      orderDate: new Date(order?.updatedAt || '').toISOString().split('T')[0] ,
     }
   });
 
