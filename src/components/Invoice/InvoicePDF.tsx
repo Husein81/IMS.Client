@@ -22,8 +22,8 @@ interface InvoiceProps {
 const InvoicePDF: React.FC<InvoiceProps> = ({ invoice }) => {
   const theme = useTheme();
   const colors = token(theme.palette.mode);
-  const timeHour: number = invoice?.createdAt?.split('T')[1].split('.')[0].split(":")[0] as unknown as number;
-  const timeMinute: number = invoice?.createdAt?.split('T')[1].split('.')[0].split(":")[1] as unknown as number;
+  const timeHour: number | string = invoice?.createdAt ? Number(invoice.createdAt.split('T')[1].split('.')[0].split(":")[0]) : 0;
+  const timeMinute: number | string = invoice?.createdAt ? invoice.createdAt.split('T')[1].split('.')[0].split(":")[1] : 0;
   return (
   
     <Box sx={{bgcolor:"#fefefe",borderRadius:1}}>
@@ -43,7 +43,7 @@ const InvoicePDF: React.FC<InvoiceProps> = ({ invoice }) => {
           <Box >
             <Typography variant="h5" >Invoice Date: 
               <Typography variant="subtitle1" textAlign={'left'} sx={{color:colors.black[600]}} >
-                {invoice?.createdAt?.split('T')[0]}
+                {invoice?.createdAt ? new Date(invoice.createdAt).toLocaleDateString('en-GB') : ''}
               </Typography>
             </Typography> <Typography variant="h5"  >Invoice Time: 
               <Typography variant="subtitle1" textAlign={'left'} sx={{color:colors.black[600]}}>

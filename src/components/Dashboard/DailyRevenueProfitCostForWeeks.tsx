@@ -31,7 +31,6 @@ const DailyRevenueProfitCostForWeeks:React.FC<Props> = ({data}) => {
             axisTop={null}
             axisRight={null}
             axisBottom={{
-                
                 legend: 'Week',
                 legendOffset: 36,
                 legendPosition: 'middle',
@@ -42,7 +41,7 @@ const DailyRevenueProfitCostForWeeks:React.FC<Props> = ({data}) => {
                 legendPosition: 'middle',
             }}
             colors={{ scheme: 'nivo' }}
-            pointSize={10}
+            pointSize={8}
             pointColor={{ theme: 'background' }}
             pointBorderWidth={2}
             pointBorderColor={{ from: 'serieColor' }}

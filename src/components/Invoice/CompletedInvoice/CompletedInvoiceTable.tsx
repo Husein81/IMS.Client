@@ -1,19 +1,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Box, Button, IconButton, useTheme } from "@mui/material"
+import { Box, IconButton, useTheme } from "@mui/material"
 import { DataGrid, GridColDef } from "@mui/x-data-grid"
-import { token } from "../../Theme";
-import { Pagination } from "../../app/models/Pagination/pagination";
+import { token } from "../../../Theme";
+import { Pagination } from "../../../app/models/Pagination/pagination";
 import React from "react";
-import { useDeleteOrderMutation, useUpdateOrderStatusMutation } from "../../app/redux/Slice/orderApi";
-import Loader from "../OtherComponents/Loader";
+import { useDeleteOrderMutation } from "../../../app/redux/Slice/orderApi";
+import Loader from "../../OtherComponents/Loader";
 import { GridInitialStateCommunity } from "@mui/x-data-grid/models/gridStateCommunity";
-import { Delete, Edit, PictureAsPdf } from "@mui/icons-material";
-import { Order } from "../../app/models/Order";
+import { Delete, PictureAsPdf } from "@mui/icons-material";
+import { Order } from "../../../app/models/Order";
 import { useNavigate } from "react-router-dom";
-import { OrderPagination } from "../../app/models/Pagination/OrderPagination";
-import { openModal } from "../../app/redux/Slice/modalSlice";
-import PaymentForm from "./PaymentForm";
-import { useDispatch } from "react-redux";
+import { OrderPagination } from "../../../app/models/Pagination/OrderPagination";
 
 
 interface Props{
@@ -23,11 +20,11 @@ interface Props{
   setPageModel: React.Dispatch<React.SetStateAction<Pagination>>;  
   refetch: () => any;
 }
-const InvoiceTable:React.FC<Props> = ({ orders: data,isLoading, pageModel, setPageModel, refetch}) => {
+const CompletedInvoiceTable:React.FC<Props> = ({ orders: data,isLoading, pageModel, setPageModel, refetch}) => {
  
   const theme = useTheme();
   const colors = token(theme.palette.mode);
-  const  dispatch = useDispatch();
+
   const [deleteOrder, {isLoading: isLoadingDelete}] = useDeleteOrderMutation();
 
   const handlePaginationChange = (modal: Pagination) => {
@@ -47,8 +44,7 @@ const InvoiceTable:React.FC<Props> = ({ orders: data,isLoading, pageModel, setPa
   const orders = data?.items.map((order:Order) => {
     return {
       ...order,
-      orderDate: new Date(order?.createdAt || '').toLocaleDateString('en-GB').split('T')[0] ,
-      orderUpdatedAt: new Date(order?.updatedAt || '').toLocaleDateString('en-GB').split('T')[0] ,
+      orderDate: new Date(order?.updatedAt || '').toLocaleDateString('en-GB').split('T')[0] ,
     }
   });
 
@@ -57,35 +53,11 @@ const InvoiceTable:React.FC<Props> = ({ orders: data,isLoading, pageModel, setPa
     navigate(`/invoice/${id}`);
   }
 
-  const [updateOrderStatus] = useUpdateOrderStatusMutation();
-
-  const handleOrderStatus = async (id:string, orderStatus:string) =>{
-    try{
-      updateOrderStatus({id, orderStatus});
-    }catch(err){
-      console.error(err);
-    }
-
-    refetch();
-  }  
-
-  const handlePayment = (id: string) => {
-    dispatch(openModal(<PaymentForm id={id} refetch={refetch}/>));
-  }
+ 
   const columns: GridColDef[] = [
     { field: 'customer', headerName: 'Customer', width: 100 },
-    { field: 'orderDate', headerName: 'Date', width: 150 },
-    { field: 'orderUpdatedAt', headerName: 'UpdatedAt', width: 150 },
+    { field: 'orderDate', headerName: 'Date', width: 200 },
     { field: 'orderStatus', headerName: 'Status', width: 100},
-    { field:'payment', headerName:'Payment Left', width:100,
-      renderCell: (params) => (
-        <Box display="flex"  gap={2}>
-            {params.row.payment}
-          <IconButton onClick={() => handlePayment(params.row.id)}>
-            <Edit/>
-          </IconButton>
-        </Box>)
-    },
     { field: 'totalAmount', headerName: 'Total', width: 100 },
     {
       field: 'actions',
@@ -122,30 +94,6 @@ const InvoiceTable:React.FC<Props> = ({ orders: data,isLoading, pageModel, setPa
         </IconButton>
       ),
     },
-    {
-      field: 'status',
-      headerName: 'Status Action',
-      align: 'center',
-      width: 200,
-      renderCell: (params) => (
-        <Box gap={2} display="flex" alignItems={'center'} >
-          <Button 
-            color="primary" 
-            variant="contained"
-            onClick={() => handleOrderStatus(params.row.id, 'completed')}
-          >
-            completed
-          </Button>
-          <Button 
-            variant="contained"
-            color="primary" 
-            onClick={() => handleOrderStatus(params.row.id, 'unpaid')}
-          >
-            Unpaid
-          </Button>
-        </Box>
-      ),
-    }
   ];
 
   const DataGridStyle = {
@@ -205,4 +153,4 @@ const InvoiceTable:React.FC<Props> = ({ orders: data,isLoading, pageModel, setPa
     </Box>
   )
 }
-export default InvoiceTable
+export default CompletedInvoiceTable

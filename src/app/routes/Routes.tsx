@@ -9,6 +9,7 @@ import OrderPage from '../../components/Order/OrderPage';
 import InvoiceDoc from '../../components/Invoice/InvoiceDoc';
 import CustomerPage from '../../components/Customer/CustomerPage';
 import SupplierPage from '../../components/Supplier/SupplierPage';
+import CompletedInvoicePage from '../../components/Invoice/CompletedInvoice/CompletedInvoicePage';
 
 export const routes : RouteObject[] = [
    { 
@@ -24,6 +25,7 @@ export const routes : RouteObject[] = [
             {path:'invoice/:id', element:<InvoiceDoc />},
             {path:'customers', element:<CustomerPage/>},
             {path:'suppliers', element:<SupplierPage/>},
+            {path:'/completedInvoice',element:<CompletedInvoicePage/>},
             {path:'*', element:<DashboardPage/>}
         ]
     }

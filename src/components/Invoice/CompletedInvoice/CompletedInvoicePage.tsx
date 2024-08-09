@@ -1,13 +1,13 @@
 import { Box, Button, Container, IconButton, InputBase, Typography, useTheme } from "@mui/material";
-import InvoiceTable from "./InvoiceTable";
-import { useGetOrdersQuery } from "../../app/redux/Slice/orderApi";
-import { useState } from "react";
-import { Pagination } from "../../app/models/Pagination/pagination";
-import { token } from "../../Theme";
+import CompletedInvoiceTable from "./CompletedInvoiceTable";
+import { useGetCompletedOrdesQuery } from "../../../app/redux/Slice/orderApi";
+import { useEffect, useState } from "react";
+import { Pagination } from "../../../app/models/Pagination/pagination";
+import { token } from "../../../Theme";
 import { Search } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 
-const InvoicePage = () => {
+const CompletedInvoicePage = () => {
   const theme = useTheme();
   const colors = token(theme.palette.mode);
   const [pageModel, setPageModel] = useState<Pagination>({
@@ -16,7 +16,7 @@ const InvoicePage = () => {
     searchTerm: ''
   });
 
-  const { data, isLoading, refetch } = useGetOrdersQuery({
+  const { data, isLoading, refetch } = useGetCompletedOrdesQuery({
     page: pageModel.page + 1,
     pageSize: pageModel.pageSize,
     searchTerm: pageModel.searchTerm || ''
@@ -25,6 +25,10 @@ const InvoicePage = () => {
   const handleSearchTermChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPageModel({ ...pageModel, searchTerm: e.target.value });
   };
+
+  useEffect(() => {
+    refetch();
+  }, [refetch]);
 
   return (
     <Container>
@@ -48,16 +52,16 @@ const InvoicePage = () => {
             <Search />
           </IconButton>
         </Box>
-        <Box width={240}>
-            <Button variant="contained" >
-              <Link to='/completedInvoice'>
-                View Completed Invoices
+        <Box width={240} >
+            <Button variant="contained" className='h-[50px]' >
+              <Link to='/invoice'>
+                View All Invoices
               </Link>
             </Button>
         </Box>
       </Box>
       <Box  width={'100%'}>
-        <InvoiceTable
+        <CompletedInvoiceTable
           orders={data!}
           pageModel={pageModel}
           setPageModel={setPageModel}
@@ -69,4 +73,4 @@ const InvoicePage = () => {
   );
 };
 
-export default InvoicePage;
+export default CompletedInvoicePage;

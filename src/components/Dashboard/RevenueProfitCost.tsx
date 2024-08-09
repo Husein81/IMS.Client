@@ -41,7 +41,7 @@ const RevenueProfitCost:React.FC<Props> = ({data}) => {
                 legendOffset: -40,
                 legendPosition: 'middle'
             }}
-            pointSize={10}
+            pointSize={8}
             pointColor={{ from: 'color', modifiers: [] }}
             pointBorderWidth={2}
             pointBorderColor={{ from: 'serieColor' }}

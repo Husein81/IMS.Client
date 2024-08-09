@@ -2,7 +2,7 @@ import { Box, Button, Container, IconButton, Paper, Typography, useTheme } from 
 import { useCreateOrderMutation } from "../../app/redux/Slice/orderApi"
 import { RootState } from "../../app/redux/Store";
 import { useDispatch, useSelector } from "react-redux";
-import { useGetProductsQuery, useUpdateProductMutation } from "../../app/redux/Slice/productApi";
+import { useGetProductsQuery } from "../../app/redux/Slice/productApi";
 import { token } from "../../Theme";
 import OrderForm from "./OrderForm";
 import OrderItemList from "./OrderItemList";
@@ -14,6 +14,7 @@ import { clearCart } from "../../app/redux/Slice/OrderSlice";
 import { PersonAddAlt1 } from "@mui/icons-material";
 import { openModal } from "../../app/redux/Slice/modalSlice";
 import CustomerForm from "../Customer/CustomerForm";
+import { Order } from "../../app/models/Order";
 
 const OrderPage = () => {
     const theme = useTheme();
@@ -30,51 +31,46 @@ const OrderPage = () => {
 
     const [selectedCustomer, setSelectedCustomer] = useState<Customer | undefined>(undefined);
     const {data} = useGetProductsQuery({page:1, pageSize:1000});
-    const [updateProduct] = useUpdateProductMutation();
     const handleOpenCustomerModal = () => {
         dispatch(openModal(<CustomerForm refetch={refetch}/>));
     };
 
     const handleCheckout = async () => {
-        console.log(orderItems)       
         try {
-        
-        const updatedOrderItems = orderItems.map(item => {
-            if (item.product && item.product.quantity && item.qty > item.product.quantity) {
-                throw new Error('Quantity is not available');
-            } else {
-                updateProduct({
-                    ...item.product,
-                    quantity: item.product ? item.product.quantity - item.qty : 0
-                }).unwrap();
-                return {
-                    ...item,
-                    product: {
+            
+            const updatedOrderItems = orderItems.map(item => {
+                if (item.product && item.product.quantity && item.qty > item.product.quantity) {
+                    throw new Error('Quantity is not available');
+                } else {
+                    const updatedProduct = item.product ? {
                         ...item.product,
-                        quantity: item.product ? item.product.quantity - item.qty : 0
-                    }
-                };
+                        quantity: item.product.quantity - item.qty
+                    } : undefined;
+                    return {
+                        ...item,
+                        product: updatedProduct
+                    };
+                }
+            });
+            
+            const newOrder: Order = {
+                createdAt: new Date().toISOString(),
+                orderStatus: 'Pending',
+                shippingAddress: '',
+                itemsPrice: parseFloat(itemsPrice as string),
+                discount: orderItems.reduce((acc, item) => acc + item.discount, 0),
+                totalAmount: parseFloat(totalPrice as string),
+                customerId: selectedCustomer?.id || '',
+                orderItems: updatedOrderItems 
             }
-        });
-        
-        const newOrder = {
-            orderDate: new Date().toISOString(),
-            orderStatus: 'Pending',
-            shippingAddress: '',
-            itemsPrice: parseFloat(itemsPrice as string),
-            discount: orderItems.reduce((acc, item) => acc + item.discount, 0),
-            totalAmount: parseFloat(totalPrice as string),
-            customerId: selectedCustomer?.id,
-            orderItems: updatedOrderItems
-        }
-        
-        await createOrder(newOrder).unwrap();
-            dispatch(clearCart());
-        } catch (error) {
-            console.error(error);
-        }finally{
-            navigate('/invoice');
-        }
+            
+            await createOrder(newOrder).unwrap();
+                dispatch(clearCart());
+            } catch (error) {
+                console.error(error);
+            }finally{
+                navigate('/invoice');
+            }
     }
 
   return (
