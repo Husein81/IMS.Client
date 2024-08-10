@@ -4,7 +4,7 @@ import { useGetCompletedOrdesQuery } from "../../../app/redux/Slice/orderApi";
 import { useEffect, useState } from "react";
 import { Pagination } from "../../../app/models/Pagination/pagination";
 import { token } from "../../../Theme";
-import { Search } from "@mui/icons-material";
+import { List as ListIcon, Search } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 
 const CompletedInvoicePage = () => {
@@ -53,11 +53,11 @@ const CompletedInvoicePage = () => {
           </IconButton>
         </Box>
         <Box width={240} >
+          <Link to='/invoice'>
             <Button variant="contained" className='h-[50px]' >
-              <Link to='/invoice'>
-                View All Invoices
-              </Link>
+                <ListIcon/>
             </Button>
+          </Link>
         </Box>
       </Box>
       <Box  width={'100%'}>

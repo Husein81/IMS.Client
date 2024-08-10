@@ -40,7 +40,7 @@ const DailyRevenueProfitCostForWeeks:React.FC<Props> = ({data}) => {
                 legendOffset: -40,
                 legendPosition: 'middle',
             }}
-            colors={{ scheme: 'nivo' }}
+            colors={{ scheme: 'nivo'}}
             pointSize={8}
             pointColor={{ theme: 'background' }}
             pointBorderWidth={2}
@@ -66,8 +66,8 @@ const DailyRevenueProfitCostForWeeks:React.FC<Props> = ({data}) => {
                         {
                             on: 'hover',
                             style: {
-                                itemBackground: 'rgba(0, 0, 0, .03)',
-                                itemOpacity: 1,
+                                itemBackground: 'rgba(0, 0, 0, 0.03)',
+                                itemOpacity: 0.1,
                             },
                         },
                     ],

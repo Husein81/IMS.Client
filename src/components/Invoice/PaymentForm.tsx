@@ -46,6 +46,7 @@ const PaymentForm: React.FC<Props> = ({ id, refetch }) => {
                 <TextField
                     label='Payment'
                     name='payment'
+                  
                     margin="dense"
                     value={Payment}
                     inputProps={{min:0, max: data?.payment ? data.payment+1 : undefined }}

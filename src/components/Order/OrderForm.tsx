@@ -44,6 +44,11 @@ const OrderForm : React.FC<Props>= ({ colors, customers, selectedCustomer,setSel
             product: selectedProduct,
           }));
     }
+    const cancelHandler = () => {
+        setIsSelectedCustomer(false);
+        setSelectedCustomer(undefined)
+    }
+    
   return (
     <Paper sx={{bgcolor:colors.white[500], py:2}} elevation={3}>
         <Container component={'form'} onSubmit={handleSubmit}>
@@ -52,18 +57,18 @@ const OrderForm : React.FC<Props>= ({ colors, customers, selectedCustomer,setSel
                     <Grid container spacing={2} sx={{alignItems:'center'}}>
                         <Grid item xs={6}>
                             <Autocomplete
-                            options={customers}
-                            value={selectedCustomer}
-                            onChange={(_event, newValue) => setSelectedCustomer(newValue || undefined)} 
-                            getOptionLabel={(option) => option.name}
-                            renderInput={(params) =>
-                                <TextField
-                                    required
-                                    {...params}
-                                    margin="dense"
-                                    label="Customer Name"
-                                    fullWidth   
-                                />}
+                                options={customers}
+                                value={selectedCustomer}
+                                onChange={(_event, newValue) => setSelectedCustomer(newValue || undefined)} 
+                                getOptionLabel={(option) => option.name}
+                                renderInput={(params) =>
+                                    <TextField
+                                        required
+                                        {...params}
+                                        margin="dense"
+                                        label="Customer Name"
+                                        fullWidth   
+                                    />}
                             />
                         </Grid>
                         <Grid item xs={4}>
@@ -79,7 +84,7 @@ const OrderForm : React.FC<Props>= ({ colors, customers, selectedCustomer,setSel
                         <Typography variant="h4">
                             Customer Name: {selectedCustomer?.name}
                         </Typography>
-                        <Box className='cursor-pointer text-red-500' onClick={() => setIsSelectedCustomer(false)}>
+                        <Box className='cursor-pointer text-red-500' onClick={cancelHandler}>
                             <Cancel />
                         </Box>
                     </Box>
@@ -119,6 +124,7 @@ const OrderForm : React.FC<Props>= ({ colors, customers, selectedCustomer,setSel
                     onChange={(e) => setDiscount(Number(e.target.value))}
                     inputProps={{min:0, max:100}}/>
                 <Button     
+                    disabled={!selectedCustomer || !selectedProduct  || !qty}
                     variant="contained"
                     type="submit">
                     Add Item

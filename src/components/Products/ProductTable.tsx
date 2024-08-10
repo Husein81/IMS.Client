@@ -81,7 +81,7 @@ const ProductTable: React.FC<Props>= ({colors, products,pageModel, setPageModel,
     const columns: GridColDef[] = [
       { field: 'name', headerName: 'Name', width: 100 },
       { field: 'imageUrls', headerName: 'Image URL', width: 100, renderCell: (params) => (
-        <Box component={'img'} src={params.row.imageUrls[0]} alt="product image" width={50} height={50} />
+        <Box component={'img'} loading="lazy" src={params.row.imageUrls[0]} alt="product image" width={50} height={50} />
       ),},
       { field: 'description', headerName: 'Description', width: 100},
       { field: 'quantity', headerName: 'Quantity', width: 100 },

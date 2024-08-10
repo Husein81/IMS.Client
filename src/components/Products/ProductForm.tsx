@@ -28,6 +28,7 @@ const ProductForm: React.FC<Props> = ({ id , refetch:refetchAll}) => {
     description: '',
     cost: 0.0,
     currency:'',
+    price: 0.0,
     quantity:0,
     imageUrls: [],
     categoryId: '',
@@ -132,7 +133,16 @@ const ProductForm: React.FC<Props> = ({ id , refetch:refetchAll}) => {
       refetchAll();
     }
   }
+  const isFormData = formData.name === '' ||
+    formData.cost === 0 ||
+    formData.price === 0 ||
+    formData.currency === '' ||
+    formData.quantity === 0 ||
+    formData.categoryId === '' ||
+    formData.supplierId === '';
 
+  console.log(isFormData,formData);
+  
   return (
     <Container component={'form'}  onSubmit={handleSubmit}>
       <FormControl component={'fieldset'} fullWidth>
@@ -160,6 +170,7 @@ const ProductForm: React.FC<Props> = ({ id , refetch:refetchAll}) => {
               name="cost"
               label="Cost"
               type="number"
+              inputProps={{min:0}}
               value={formData.cost}
               onChange={handleChange}
             />
@@ -172,6 +183,7 @@ const ProductForm: React.FC<Props> = ({ id , refetch:refetchAll}) => {
               margin="dense"
               name="price"
               label="Price"
+              inputProps={{min:0}}
               value={formData.price}
               onChange={handleChange}
               />
@@ -182,6 +194,7 @@ const ProductForm: React.FC<Props> = ({ id , refetch:refetchAll}) => {
               name="quantity"
               label="Quantity"
               type="number"
+              inputProps={{min:0}}
               value={formData.quantity}
               onChange={handleChange}
               />
@@ -278,7 +291,7 @@ const ProductForm: React.FC<Props> = ({ id , refetch:refetchAll}) => {
         <Button
           type="submit"
           variant="contained"
-          disabled={isLoadingCreate || isLoadingUpdate}
+          disabled={isFormData || (isLoadingCreate || isLoadingUpdate)}
         >
          {isLoadingCreate || isLoadingUpdate ?  "Submitting" : "Submit"}
         </Button>

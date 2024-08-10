@@ -1,20 +1,21 @@
 import { Card, CardContent, List, ListItem, ListItemText, Typography } from "@mui/material"
 import { Product } from "../../app/models/Product";
+import { TrendingUp } from "@mui/icons-material";
 
 interface Props{
     data: Product[];
     }
-const TopSellinProducts:React.FC<Props> = ({ data }) => {
+const TopSellingProducts:React.FC<Props> = ({ data }) => {
    
   return (
     <Card sx={{bgcolor:'#fefefe'}}>
         <CardContent>
 
-            <Typography variant='h4' align='center'>Top Selling Products</Typography>
+            <Typography variant='h4' sx={{display:'flex', alignItems:'center', justifyContent:'center', gap:2}} ><TrendingUp/> Top Selling Products</Typography>
             <List>
                 {data?.map((product: Product, index: number) => (
                     <ListItem key={index}>
-                        <ListItemText primary={product.name} secondary={`Quantity: ${product.quantity}`}/>
+                        <ListItemText sx={{color:'#242424'}} primary={product.name} secondary={`Quantity: ${product.quantity}`}/>
                     </ListItem>
                 ))}
             </List>
@@ -22,4 +23,4 @@ const TopSellinProducts:React.FC<Props> = ({ data }) => {
     </Card>
   )
 }
-export default TopSellinProducts
+export default TopSellingProducts

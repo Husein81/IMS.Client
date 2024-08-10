@@ -22,6 +22,7 @@ const OrderPage = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
+
     const order = useSelector((state: RootState) => state.order);
     const {orderItems, totalPrice, itemsPrice} = order;
 
@@ -36,8 +37,8 @@ const OrderPage = () => {
     };
 
     const handleCheckout = async () => {
+       
         try {
-            
             const updatedOrderItems = orderItems.map(item => {
                 if (item.product && item.product.quantity && item.qty > item.product.quantity) {
                     throw new Error('Quantity is not available');
@@ -52,25 +53,26 @@ const OrderPage = () => {
                     };
                 }
             });
-            
+        
             const newOrder: Order = {
                 createdAt: new Date().toISOString(),
-                orderStatus: 'Pending',
+                orderStatus: 'Pending...',
                 shippingAddress: '',
+                payment:parseFloat(totalPrice as string),
                 itemsPrice: parseFloat(itemsPrice as string),
                 discount: orderItems.reduce((acc, item) => acc + item.discount, 0),
                 totalAmount: parseFloat(totalPrice as string),
                 customerId: selectedCustomer?.id || '',
                 orderItems: updatedOrderItems 
             }
-            
+        
             await createOrder(newOrder).unwrap();
-                dispatch(clearCart());
-            } catch (error) {
-                console.error(error);
-            }finally{
-                navigate('/invoice');
-            }
+            dispatch(clearCart());
+        } catch (error) {
+            console.error(error);
+        }finally{
+            navigate('/invoice');
+        }
     }
 
   return (

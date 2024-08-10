@@ -2,7 +2,7 @@
 import { Box, IconButton } from "@mui/material"
 import { DataGrid, GridColDef } from "@mui/x-data-grid"
 import React from "react";
-import { Delete, Edit } from "@mui/icons-material";
+import { Delete, Edit, Receipt } from "@mui/icons-material";
 import { ColorSet } from "../../Theme";
 import { useDeleteSupplierMutation } from "../../app/redux/Slice/supplierApi";
 import { useDispatch } from "react-redux";
@@ -12,6 +12,7 @@ import { SupplierPagination } from "../../app/models/Pagination/SupplierPaginati
 import { GridInitialStateCommunity } from "@mui/x-data-grid/models/gridStateCommunity";
 import { openModal } from "../../app/redux/Slice/modalSlice";
 import SupplierForm from "./SupplierForm";
+import { useNavigate } from "react-router-dom";
 
 interface Props{
     suppliers: SupplierPagination,
@@ -23,6 +24,7 @@ interface Props{
 }
 const SupplierTable: React.FC<Props> = ({colors, suppliers, pageModel, setPageModel, isLoading, refetch}) => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const [deleteSupplier] = useDeleteSupplierMutation();
 
     const handlePaginationChange = (modal: Pagination) => {
@@ -40,11 +42,23 @@ const SupplierTable: React.FC<Props> = ({colors, suppliers, pageModel, setPageMo
       dispatch(openModal(<SupplierForm refetch={refetch} id={id}/>));
     }
 
+    const handleInvoic = (id: string) => {
+      navigate(`/SupplierInvoice/${id}`);
+    }
     const columns: GridColDef[] = [
       {field:'name', headerName:'Name', width: 200},
       {field:'email', headerName:'Email', width: 200},
       {field:'address', headerName:'Address', width: 200},
       {field:'phone', headerName:'Phone', width: 200},
+      {field:'invoice', headerName:'See Invoice', width: 200,
+        renderCell: (params) => (
+          <Box display={'flex'} alignItems={'center'}>
+            <IconButton onClick={() => handleInvoic(params.row.id)}>
+              <Receipt/>
+            </IconButton>
+          </Box>
+        )
+      },
       {field:'Action', headerName:'Action', width: 200
         ,renderCell: (params) => (
             <Box display={'flex'} alignItems={'center'}>

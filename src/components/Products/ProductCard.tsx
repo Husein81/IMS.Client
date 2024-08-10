@@ -15,6 +15,7 @@ interface Props {
   product: Product;
 }
 const ProductCard:React.FC<Props> = ({ product }) => {
+  
   const dispatch = useDispatch();
   const [qty] = useState(1);
   
@@ -31,17 +32,39 @@ const ProductCard:React.FC<Props> = ({ product }) => {
   }
 
   return (
-    <Card sx={{bgcolor:"#fcfcfc" ,px:1, cursor:'pointer', display:'flex', justifyContent:'space-between' ,alignItems:'center'}} onClick={addToCartHandler}>
-    <Box component={'img'} src={product.imageUrls[0]} className="h-20 w-20 rounded"/>
+    <Card 
+      sx={{
+        bgcolor:"#fcfcfc" ,
+        px:1, 
+        cursor:'pointer', 
+        display:'flex', 
+        justifyContent:'space-between' ,
+        alignItems:'center'}} 
+      onClick={addToCartHandler}>
+    <Box component={'img'} loading="lazy" src={product.imageUrls[0]} className="h-20 w-20 rounded"/>
     <CardContent>
-      <Typography variant="h6">Name: {product.name}</Typography>
-      <Typography variant="h6">Price: ${product.price}</Typography>
-      <Typography variant="h6">Quantity: {product.quantity}</Typography>
-      <Typography variant="subtitle1" >
+      <Typography variant="h6">Name:
+        <Typography component={'span'} variant="subtitle2" className="text-slate-600">
+          {product.name}
+        </Typography>
+      </Typography>
+      <Typography variant="h6">
+        Price:
+        <Typography component={'span'} variant="subtitle2" className="text-slate-600">
+          ${product.price}
+        </Typography>
+      </Typography>
+      <Typography variant="h6">
+        Quantity:
+        <Typography component={'span'} variant="subtitle2" className="text-slate-600"> 
+          {product.quantity}
+        </Typography>
+      </Typography>
+      <Typography variant="h6" >
         Status:{" "}
-        <Box component={'span'} color={product.quantity > 0? '' : 'red'}>
+        <Typography component={'span'} variant="subtitle2" className={product.quantity > 0? 'text-slate-600' : 'text-red-800'}>
           {product.quantity >0 ? "In Stock" : "Out Of Stock"}
-        </Box>
+        </Typography>
       </Typography>
     </CardContent>
   </Card>

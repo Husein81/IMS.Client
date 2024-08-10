@@ -7,7 +7,7 @@ import React from "react";
 import { useDeleteOrderMutation, useUpdateOrderStatusMutation } from "../../app/redux/Slice/orderApi";
 import Loader from "../OtherComponents/Loader";
 import { GridInitialStateCommunity } from "@mui/x-data-grid/models/gridStateCommunity";
-import { Delete, Edit, PictureAsPdf } from "@mui/icons-material";
+import { CheckCircle, CreditCardOff, Delete, Edit,PictureAsPdf } from "@mui/icons-material";
 import { Order } from "../../app/models/Order";
 import { useNavigate } from "react-router-dom";
 import { OrderPagination } from "../../app/models/Pagination/OrderPagination";
@@ -28,12 +28,12 @@ const InvoiceTable:React.FC<Props> = ({ orders: data,isLoading, pageModel, setPa
   const theme = useTheme();
   const colors = token(theme.palette.mode);
   const  dispatch = useDispatch();
+  
   const [deleteOrder, {isLoading: isLoadingDelete}] = useDeleteOrderMutation();
 
   const handlePaginationChange = (modal: Pagination) => {
     setPageModel(modal);
   };
-
   const handleDelete = async(id: string) => {
     try{
       await deleteOrder(id).unwrap();
@@ -47,8 +47,10 @@ const InvoiceTable:React.FC<Props> = ({ orders: data,isLoading, pageModel, setPa
   const orders = data?.items.map((order:Order) => {
     return {
       ...order,
-      orderDate: new Date(order?.createdAt || '').toLocaleDateString('en-GB').split('T')[0] ,
-      orderUpdatedAt: new Date(order?.updatedAt || '').toLocaleDateString('en-GB').split('T')[0] ,
+      orderDate: new Date(order?.createdAt || '')
+        .toLocaleDateString('en-GB').split('T')[0] ,
+      orderUpdatedAt: new Date(order?.updatedAt || '')
+      .toLocaleDateString('en-GB').split('T')[0] ,
     }
   });
 
@@ -61,7 +63,7 @@ const InvoiceTable:React.FC<Props> = ({ orders: data,isLoading, pageModel, setPa
 
   const handleOrderStatus = async (id:string, orderStatus:string) =>{
     try{
-      updateOrderStatus({id, orderStatus});
+      await updateOrderStatus({id, orderStatus}).unwrap();
     }catch(err){
       console.error(err);
     }
@@ -76,7 +78,20 @@ const InvoiceTable:React.FC<Props> = ({ orders: data,isLoading, pageModel, setPa
     { field: 'customer', headerName: 'Customer', width: 100 },
     { field: 'orderDate', headerName: 'Date', width: 150 },
     { field: 'orderUpdatedAt', headerName: 'UpdatedAt', width: 150 },
-    { field: 'orderStatus', headerName: 'Status', width: 100},
+    { field: 'orderStatus', headerName: 'Status', width: 100, renderCell: (params) => (
+      <Box 
+        display="flex" 
+        gap={2} 
+        alignItems={'center'} 
+        className={params.row.orderStatus === 'completed' 
+        ? 'text-green-700' 
+        : params.row.orderStatus === 'unpaid' 
+        ? 'text-red-800' 
+        : 'grey'}>
+        {params.row.orderStatus}
+      </Box>
+    )
+    },
     { field:'payment', headerName:'Payment Left', width:100,
       renderCell: (params) => (
         <Box display="flex"  gap={2}>
@@ -128,20 +143,26 @@ const InvoiceTable:React.FC<Props> = ({ orders: data,isLoading, pageModel, setPa
       align: 'center',
       width: 200,
       renderCell: (params) => (
-        <Box gap={2} display="flex" alignItems={'center'} >
+        <Box gap={2} display="flex" py={1} >
           <Button 
             color="primary" 
             variant="contained"
             onClick={() => handleOrderStatus(params.row.id, 'completed')}
+            disabled={params.row.orderStatus === 'completed' 
+              || (params.row.orderStatus === 'completed' 
+                && params.row.payment === 0)}
           >
-            completed
+           <CheckCircle/>
           </Button>
           <Button 
             variant="contained"
             color="primary" 
             onClick={() => handleOrderStatus(params.row.id, 'unpaid')}
+            disabled={params.row.orderStatus === 'unpaid' 
+              || (params.row.orderStatus === 'completed' 
+                && params.row.payment === 0)}
           >
-            Unpaid
+            <CreditCardOff/>
           </Button>
         </Box>
       ),

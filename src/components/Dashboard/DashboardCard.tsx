@@ -11,7 +11,7 @@ const DashboardCard:React.FC<Props> = ({content}) => {
           {content.icon}
           <Typography variant='h6' >{content.title}</Typography>
         </Box>
-          <Typography variant='h5'>$ {content.value}</Typography>
+          <Typography variant='h4'>$ {content.value}</Typography>
       </CardContent>
     </Card>
   )

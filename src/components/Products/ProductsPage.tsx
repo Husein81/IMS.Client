@@ -78,7 +78,7 @@ const ProductsPage = () => {
         </Box>
       </Box>
 
-     {toggle ?
+     {!toggle ?
      <Box display={'flex'} flexDirection={'column'}>
      <Box height={'70vh'}>
         <ProductList   

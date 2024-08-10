@@ -54,6 +54,10 @@ const SupplierForm: React.FC<Props> = ({ id, refetch }) => {
             refetch();
         }
     }
+    const isFormData = formData.name.trim() === '' ||
+        formData.email.trim() === '' ||
+        formData.phone.trim() === '' ||
+        formData.address.trim() === '';
   return (
     <Container component='form' autoComplete="off" onSubmit={handleSubmit}>
         <FormControl component={'fieldset'} fullWidth>
@@ -95,7 +99,7 @@ const SupplierForm: React.FC<Props> = ({ id, refetch }) => {
                     variant="contained" 
                     type="submit" 
                     color="primary"
-                    disabled={isLoadingCreate || isLoadingUpdate}>
+                    disabled={isFormData|| isLoadingCreate || isLoadingUpdate}>
                     {isLoadingCreate || isLoadingUpdate ? 'Submitting...' : 'Submit'}
                 </Button>
             </FormGroup>
