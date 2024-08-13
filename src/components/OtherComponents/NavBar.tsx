@@ -1,5 +1,4 @@
-import { Search } from "@mui/icons-material"
-import { AppBar, Box,  IconButton, InputBase, Toolbar,  Typography,  useTheme } from "@mui/material"
+import { AppBar, Box, Toolbar,  Typography,  useTheme } from "@mui/material"
 import { RootState } from "../../app/redux/Store";
 import { useSelector } from "react-redux";
 import { token } from "../../Theme";
@@ -9,11 +8,7 @@ const NavBar = () => {
     const theme = useTheme();
     const colors = token(theme.palette.mode);
     const { userInfo } = useSelector((state: RootState) => state.auth);
-    const [searchTerm, setSearchTerm] = useState('');
-    const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      setSearchTerm(e.target.value)
-    }
-
+    
     const formatDateTime = (date: Date): string => {
       const hours = date.getHours();
       const minutes = date.getMinutes();
@@ -35,47 +30,27 @@ const NavBar = () => {
     const [dateTime, setDateTime] = useState<string>('');
 
     useEffect(() => {
-        const updateDateTime = () => {
-            const now = new Date();
-            const formattedDateTime = formatDateTime(now);
-            setDateTime(formattedDateTime);
-        };
+      const updateDateTime = () => {
+        const now = new Date();
+        const formattedDateTime = formatDateTime(now);
+        setDateTime(formattedDateTime);
+      };
 
-        updateDateTime();
-        const intervalId = setInterval(updateDateTime, 60000); // Update every minute
+      updateDateTime();
+      const intervalId = setInterval(updateDateTime, 60000); // Update every minute
 
-        return () => clearInterval(intervalId); // Cleanup interval on component unmount
+      return () => clearInterval(intervalId); // Cleanup interval on component unmount
     }, []);
   
   return (
-    <AppBar  sx={{bgcolor:colors.gray[600],mt:-2.5}} position="static" >
+    <AppBar sx={{bgcolor:colors.black[500],borderRadius:1}} position="static" >
         <Toolbar sx={{display:'flex',justifyContent:'space-between'}}>
             <Box >
-                  <Typography variant="h3"color={colors.white[500]}>Inventory System</Typography>
-                  <Typography variant="h6" color={colors.white[500]}>
-                    {dateTime}
-                  </Typography>
+              <Typography variant="h6" color={colors.white[500]}>
+                {dateTime}
+              </Typography>
             </Box>
-            <Box 
-            display={'flex'}
-            bgcolor={colors.black[500]}
-            borderRadius={'4px'}
-            width={'fit-content'}
-            my={1}>
-                  <InputBase
-                  sx={{bgcolor:colors.black[500], color:'white',px:1, borderRadius:1, flex:1}}
-                  placeholder="Search"
-                  name="searchTerm"
-                  type="text"
-                  value={searchTerm}
-                  onChange={handleSearchChange}
-                  />
-                  <IconButton sx={{borderRadius:1, p:1, color:colors.gray[500]}}>
-                    <Search/>
-                  </IconButton>
-              </Box>
-              
-              <Box  className='cursor-pointer'>  
+            <Box  className='cursor-pointer'>  
                 {userInfo ? <Box component={'img'} className="w-8 h-8 rounded-full"  src={userInfo.imageUrl || "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" }/> : null}
               </Box>
         </Toolbar>

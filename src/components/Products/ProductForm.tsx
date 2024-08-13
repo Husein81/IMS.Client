@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Box, Button, Container, FormControl, FormGroup, FormLabel, IconButton, InputLabel, MenuItem, Select, TextField, Typography, useTheme } from "@mui/material"
+import { Autocomplete, Box, Button, Container, FormControl, FormGroup, FormLabel, IconButton, InputLabel, MenuItem, Select, TextField, Typography, useTheme } from "@mui/material"
 import React, { useEffect, useState } from "react";
 import { useGetCategoriesQuery } from "../../app/redux/Slice/categoryApi";
 import { useCreateProductMutation, useGetProductQuery, useUpdateProductMutation } from "../../app/redux/Slice/productApi";
@@ -258,34 +258,52 @@ const ProductForm: React.FC<Props> = ({ id , refetch:refetchAll}) => {
           </Select>
         </FormControl>
         <Box display={'flex'} gap={2}>
-            <FormControl fullWidth margin="dense">
-              <InputLabel>Category</InputLabel>
-              <Select
-                name="categoryId"
-                value={formData.categoryId}
-                onChange={handleChange}
-                >
-                {categories.map((category) => (
-                  <MenuItem key={category.id} value={category.id}>
-                    {category.name}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-            <FormControl fullWidth sx={{mt:1,mb:2}}>
-              <InputLabel>Supplier</InputLabel>
-              <Select
-                name="supplierId"
-                value={formData.supplierId}
-                onChange={handleChange}
-                >
-                {suppliers.map((supplier) => (
-                  <MenuItem key={supplier.id} value={supplier.id}>
-                    {supplier.name}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
+        <Autocomplete
+              options={categories}
+              getOptionLabel={(option) => option.name}
+              onChange={(_, newValue) =>
+                setFormData({
+                  ...formData,
+                  categoryId: newValue?.id || "",
+                })
+              }
+              value={categories.find(
+                (category) => category.id === formData.categoryId
+              )}
+              fullWidth
+              renderInput={(params) => (
+                <TextField
+                  required
+                  margin="dense"
+                  {...params}
+                  label="Categories"
+                  name="categoryId"
+                />
+              )}
+            />
+            <Autocomplete
+              options={suppliers}
+              getOptionLabel={(option) => option.name}
+              onChange={(_, newValue) =>
+                setFormData({
+                  ...formData,
+                  supplierId: newValue?.id || "",
+                })
+              }
+              value={suppliers.find(
+                (supplier) => supplier.id === formData.supplierId
+              )}
+              fullWidth
+              renderInput={(params) => (
+                <TextField
+                  required
+                  margin="dense"
+                  {...params}
+                  label="Supplier"
+                  name="supplierId"
+                />
+              )}
+            />
           </Box>
         </FormGroup>
         <Button

@@ -15,7 +15,7 @@ const TopSellingProducts:React.FC<Props> = ({ data }) => {
             <List>
                 {data?.map((product: Product, index: number) => (
                     <ListItem key={index}>
-                        <ListItemText sx={{color:'#242424'}} primary={product.name} secondary={`Quantity: ${product.quantity}`}/>
+                        <ListItemText  sx={{color:'#242424'}} primary={product.name} secondary={`Quantity Sold: ${product.quantity}`}/>
                     </ListItem>
                 ))}
             </List>

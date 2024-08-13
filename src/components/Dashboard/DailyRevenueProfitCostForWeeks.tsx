@@ -1,4 +1,5 @@
 import { ResponsiveLine } from '@nivo/line';
+import Loader from '../OtherComponents/Loader';
 
 
 type GraphDataPoint = {
@@ -13,9 +14,10 @@ export type GraphDataSeries = {
 
 interface Props{
     data: GraphDataSeries[];
+    isLoading: boolean;
 }
-const DailyRevenueProfitCostForWeeks:React.FC<Props> = ({data}) => {
-
+const DailyRevenueProfitCostForWeeks:React.FC<Props> = ({data, isLoading}) => {
+    if(isLoading) return <Loader color='blue'/>;
   return (
     <ResponsiveLine
             data={data}
@@ -64,7 +66,7 @@ const DailyRevenueProfitCostForWeeks:React.FC<Props> = ({data}) => {
                     symbolBorderColor: 'rgba(0, 0, 0, .5)',
                     effects: [
                         {
-                            on: 'hover',
+                            on: 'hover',    
                             style: {
                                 itemBackground: 'rgba(0, 0, 0, 0.03)',
                                 itemOpacity: 0.1,
