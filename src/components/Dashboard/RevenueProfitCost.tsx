@@ -3,8 +3,8 @@ import Loader from '../OtherComponents/Loader';
 
 
 type GraphDataPoint = {
-    x: string;
-    y: number;
+    x?: string;
+    y?: number;
 }
 
 export type GraphDataSeries = {
@@ -18,7 +18,7 @@ interface Props{
 
 const RevenueProfitCost:React.FC<Props> = ({data, isLoading}) => {
 
-    if(isLoading)return <Loader color='blue'/>
+    if(isLoading)return <Loader />
   return (
     <ResponsiveLine
             data={data}
@@ -43,7 +43,7 @@ const RevenueProfitCost:React.FC<Props> = ({data, isLoading}) => {
                 legendOffset: -40,
                 legendPosition: 'middle'
             }}
-            pointSize={8}
+            pointSize={0}
             pointColor={{ from: 'color', modifiers: [] }}
             pointBorderWidth={2}
             pointBorderColor={{ from: 'serieColor' }}

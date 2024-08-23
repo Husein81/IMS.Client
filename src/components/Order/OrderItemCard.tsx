@@ -28,7 +28,7 @@ const OrderItemCard:React.FC<Props> = ({ item }) => {
             </Box>
             <Box>
                 <Box display={'flex'} alignItems={'center'} justifyContent={'center'}>
-                    <Typography variant="body1">Price: ${item.price}</Typography>
+                    <Typography variant="body1">Price: ${item.price.toFixed(2)}</Typography>
                     <IconButton  onClick={() => handleRemove(item)}>
                         <Delete/>
                     </IconButton>

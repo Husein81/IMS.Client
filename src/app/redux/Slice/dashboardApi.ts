@@ -4,12 +4,7 @@ import { GraphDataSeries } from "../../../components/Dashboard/RevenueProfitCost
 
 const dashboardApi = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
-        getInventoryTotal: builder.query<number, void>({
-            query: () => ({
-                url:`${DASHBOARD_URL}/InventoryTotal`,
-                method: 'GET',
-            }),
-        }),
+
         getTopSellingProducts: builder.query({
             query: () => ({
                 url:`${DASHBOARD_URL}/TopSellingProducts`,
@@ -44,7 +39,6 @@ const dashboardApi = apiSlice.injectEndpoints({
 });
 
 export const {
-    useGetInventoryTotalQuery,
     useGetTopSellingProductsQuery,
     useGetLowStockItemsQuery,
     useGetMonthlySalesTrendsQuery,

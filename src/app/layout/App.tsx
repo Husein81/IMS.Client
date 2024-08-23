@@ -5,12 +5,17 @@ import ModalContainer from "../../components/Modals/ModalContainer"
 import SideBar from "../../components/OtherComponents/SideBar"
 import { ColorModeContext, token, useMode } from "../../Theme"
 import { ThemeProvider } from "@emotion/react"
+import { useSelector } from "react-redux"
+import { RootState } from "../redux/Store"
 // import NavBar from "../../components/OtherComponents/NavBar"
 
 function App() {
   const [theme, colorMode] = useMode();
   const colors = token(theme.palette.mode);
   const location = useLocation();
+
+  const {userInfo} = useSelector((state: RootState) => state.auth);
+  console.log(userInfo);
   return (
     <>
     <ColorModeContext.Provider value={colorMode}>

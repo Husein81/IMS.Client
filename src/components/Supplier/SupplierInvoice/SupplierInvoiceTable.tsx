@@ -64,7 +64,7 @@ const SupplierInvoiceTable: React.FC<Props> = ({colors, data,isLoading, pageMode
         }
       };
 
-      if(isLoading) return <Loader color={colors.blue[500]}/>
+      if(isLoading) return <Loader />
   return (
     <DataGrid
         sx={DataGridStyle}

@@ -9,12 +9,11 @@ const TopSellingProducts:React.FC<Props> = ({ data }) => {
    
   return (
     <Card sx={{bgcolor:'#fefefe'}}>
-        <CardContent>
-
+        <CardContent >
             <Typography variant='h4' sx={{display:'flex', alignItems:'center', justifyContent:'center', gap:2}} ><TrendingUp/> Top Selling Products</Typography>
             <List>
                 {data?.map((product: Product, index: number) => (
-                    <ListItem key={index}>
+                    <ListItem key={index} sx={{border:2, borderRadius:2, my:1}}>
                         <ListItemText  sx={{color:'#242424'}} primary={product.name} secondary={`Quantity Sold: ${product.quantity}`}/>
                     </ListItem>
                 ))}

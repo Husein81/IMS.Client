@@ -21,7 +21,6 @@ const productApi = apiSlice.injectEndpoints({
             query: ({page , pageSize, searchTerm }) => ({
                 url:PRODUCT_URL,
                 method: "GET",
-                
                 params:{
                     page,
                     pageSize,
@@ -55,6 +54,20 @@ const productApi = apiSlice.injectEndpoints({
                 method: "DELETE",
             }),
         }),
+        getProductsByCategory: builder.query<ProductPagination ,{id:string,page:number,pageSize:number}>({
+            query: ({id,page, pageSize}) => ({
+                url: `${PRODUCT_URL}/category/${id}`,
+                method: "GET",
+                params:{
+                    page,
+                    pageSize,
+                },
+            }),
+            transformResponse: (response: Product[], meta) => {
+                const pagination = JSON.parse(meta?.response?.headers.get('pagination') || '{}');
+                return { items: response, pagination };
+            },
+        }),
     }),
 })
 
@@ -63,5 +76,6 @@ export const {
     useGetProductsQuery,
     useCreateProductMutation,
     useUpdateProductMutation,
-    useDeleteProductMutation
+    useDeleteProductMutation,
+    useGetProductsByCategoryQuery,
 } = productApi;

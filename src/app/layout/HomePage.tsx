@@ -16,9 +16,7 @@ const HomePage = () => {
     const handleOpenModal = (body: JSX.Element) => {
       dispatch(openModal(body));
     }
-
-
-
+    
   return (
     <Box 
       sx={{
@@ -31,6 +29,13 @@ const HomePage = () => {
         gap:4,
         alignItems:'center',
       }}>
+        <Box 
+          component={'img'} 
+          src={'/assets/OIP.jpg'}
+          alt='logo'
+          borderRadius={1} 
+          width={200} 
+          height={200}/>
         <Typography variant='h1' align='center' color='white'>Welcome To The Inventory System</Typography>
         {userInfo === null ?
          (<Button variant='contained' color="secondary" onClick={()=> handleOpenModal(<LoginForm/>)}>

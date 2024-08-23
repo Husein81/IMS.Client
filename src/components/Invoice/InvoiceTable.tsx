@@ -96,7 +96,7 @@ const InvoiceTable:React.FC<Props> = ({ orders: data,isLoading, pageModel, setPa
       renderCell: (params) => (
         <Box display="flex"  gap={2}>
             {params.row.payment}
-          <IconButton onClick={() => handlePayment(params.row.id)}>
+          <IconButton disabled={params.row.payment === 0} onClick={() => handlePayment(params.row.id)}>
             <Edit/>
           </IconButton>
         </Box>)

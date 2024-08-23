@@ -15,9 +15,9 @@ const SupplierPage = () => {
     const dispatch = useDispatch();
 
     const [pageModel, setPageModel] = useState<Pagination>({
-        page:0,
-        pageSize: 10,
-        searchTerm:''
+      page:0,
+      pageSize: 10,
+      searchTerm:''
     });
     
     const handleSearchTermChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -25,16 +25,15 @@ const SupplierPage = () => {
     };
 
     const handleAddSupplier = () => { 
-        dispatch(openModal(<SupplierForm refetch={refetch}/>));
+      dispatch(openModal(<SupplierForm refetch={refetch}/>));
     } 
     const {data, isLoading, refetch} = useGetSuppliersQuery({
-        page: pageModel.page + 1,
-        pageSize: pageModel.pageSize,
+      page: pageModel.page + 1,
+      pageSize: pageModel.pageSize,
     });
-    console.log(data);
   return (
     <Container>
-        <Box py={2} display={'flex'} gap={3}  alignItems={'center'} justifyContent={'space-between'} >
+        <Box py={1} display={'flex'} gap={3}  alignItems={'center'} justifyContent={'space-between'} >
         <Typography variant='h3' >
           Suppliers
         </Typography>
@@ -42,7 +41,7 @@ const SupplierPage = () => {
           display={'flex'}
           borderRadius={'3px'}
           bgcolor={colors.white[500]}
-          height={'50px'}
+          height={'40px'}
           width={'100%'}>
             <InputBase
               sx={{ mx:2, flex:1,bgcolor:colors.white[500], color:'black'}}
@@ -56,7 +55,7 @@ const SupplierPage = () => {
               <Search/>
             </IconButton>
         </Box>
-        <Box display={'flex'} height={"45px"} gap={1}>
+        <Box display={'flex'} height={"40px"} gap={1}>
           <Button 
             variant='contained' 
             color="primary"

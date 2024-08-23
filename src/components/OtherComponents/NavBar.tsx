@@ -2,9 +2,12 @@ import { AppBar, Box, Toolbar,  Typography,  useTheme } from "@mui/material"
 import { RootState } from "../../app/redux/Store";
 import { useSelector } from "react-redux";
 import { token } from "../../Theme";
-import { useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 
-const NavBar = () => {
+type Props = {
+  title: string;
+}
+const NavBar: FC<Props> = ({ title = ""}) => {
     const theme = useTheme();
     const colors = token(theme.palette.mode);
     const { userInfo } = useSelector((state: RootState) => state.auth);
@@ -44,15 +47,24 @@ const NavBar = () => {
   
   return (
     <AppBar sx={{bgcolor:colors.black[500],borderRadius:1}} position="static" >
-        <Toolbar sx={{display:'flex',justifyContent:'space-between'}}>
-            <Box >
-              <Typography variant="h6" color={colors.white[500]}>
-                {dateTime}
-              </Typography>
-            </Box>
-            <Box  className='cursor-pointer'>  
-                {userInfo ? <Box component={'img'} className="w-8 h-8 rounded-full"  src={userInfo.imageUrl || "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" }/> : null}
-              </Box>
+        <Toolbar sx={{display:'flex',justifyContent:'space-between', alignItems:'center'}}>
+          <Box>
+            <Typography variant="h4" color="white" >
+              {title}
+            </Typography>
+          </Box>
+          <Box>
+            <Typography variant="h6" color={colors.white[500]}>
+              {dateTime}
+            </Typography>
+          </Box>
+          <Box  className='cursor-pointer'>  
+            {userInfo 
+              ? <Box component={'img'} className="w-8 h-8 rounded-full"  
+              src={userInfo.imageUrl 
+              || "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" }/>  
+              : null}
+          </Box>
         </Toolbar>
     </AppBar>
   )

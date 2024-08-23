@@ -18,7 +18,7 @@ const ProductList:React.FC<Props> = ({products, isLoading, colors}) => {
 
     if(isLoading) return <Loader color={colors.blue[500]}/>
   return (
-    <Box className="grid grid-cols-3 gap-2">
+    <Box className="grid grid-cols-3 gap-2 pt-2">
       {content}
     </Box>
   )

@@ -1,20 +1,25 @@
-import { Box, Button, Container, IconButton, Paper, Typography, useTheme } from "@mui/material"
+import { 
+    Box, 
+    Container, 
+    Typography, 
+    useTheme 
+} from "@mui/material"
 import { useCreateOrderMutation } from "../../app/redux/Slice/orderApi"
 import { RootState } from "../../app/redux/Store";
 import { useDispatch, useSelector } from "react-redux";
 import { useGetProductsQuery } from "../../app/redux/Slice/productApi";
 import { token } from "../../Theme";
 import OrderForm from "./OrderForm";
-import OrderItemList from "./OrderItemList";
 import { useGetCustomersQuery } from "../../app/redux/Slice/customerApi";
 import { useState } from "react";
 import { Customer } from "../../app/models/Customer";
 import { useNavigate } from "react-router-dom";
 import { clearCart } from "../../app/redux/Slice/OrderSlice";
-import { PersonAddAlt1 } from "@mui/icons-material";
 import { openModal } from "../../app/redux/Slice/modalSlice";
 import CustomerForm from "../Customer/CustomerForm";
 import { Order } from "../../app/models/Order";
+import CustomerInfo from "./CustomerInfo";
+import OrderSummary from "./OrderSummary";
 
 const OrderPage = () => {
     const theme = useTheme();
@@ -67,7 +72,7 @@ const OrderPage = () => {
             }
         
             await createOrder(newOrder).unwrap();
-            dispatch(clearCart());
+            dispatch(await clearCart());
         } catch (error) {
             console.error(error);
         }finally{
@@ -77,17 +82,9 @@ const OrderPage = () => {
 
   return (
     <Container>
-        <Box display={'flex'} gap={2} alignItems={'center'}> 
-            <IconButton
-                onClick={handleOpenCustomerModal}
-                color={'secondary'}
-                >
-                <PersonAddAlt1/>
-            </IconButton>
-            <Box sx={{cursor:'pointer', color:colors.black[500]}} onClick={() => navigate('/customers')}>
-                View Customers
-            </Box>
-        </Box>
+        <CustomerInfo 
+            colors={colors} 
+            handleOpenCustomerModal={handleOpenCustomerModal}/>
         <Typography variant="h3" gutterBottom>
           Create Order
         </Typography>
@@ -100,34 +97,13 @@ const OrderPage = () => {
                 products={data?.items || []}
             />
         </Box>
-        <Box  py={2}>
-            <Typography variant="h4" gutterBottom>
-                Order Summary
-            </Typography>
-            
-            <Paper elevation={3} sx={{bgcolor:colors.white[500], p:2}}>
-                {  orderItems && orderItems.length > 0  ?
-                    <OrderItemList 
-                        orderItems={orderItems}
-                    />
-                    :
-                    <Box  textAlign={'center'}>
-                        <Typography variant="h5">No Order Items</Typography>
-                    </Box> 
-                }
-                <Box display={'flex'} justifyContent={'space-between'} py={1}>
-                    <Typography variant="h6">Total Price</Typography>
-                    <Box>
-                        <Typography variant="h6">$ {totalPrice}</Typography>
-                    </Box>
-                </Box>
-                <Button 
-                    variant="contained" 
-                    fullWidth
-                    onClick={handleCheckout}
-                    disabled={isLoadingCreate}
-                >{isLoadingCreate ? 'Submitting...' : 'Submit'}</Button>
-            </Paper>
+        <Box>
+            <OrderSummary
+                colors={colors}
+                orderItems={orderItems}
+                totalPrice={totalPrice as string}
+                isLoadingCreate={isLoadingCreate}
+                handleCheckout={handleCheckout}/>
         </Box>
     </Container>
   )

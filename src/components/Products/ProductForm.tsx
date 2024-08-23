@@ -34,21 +34,34 @@ const ProductForm: React.FC<Props> = ({ id , refetch:refetchAll}) => {
     categoryId: '',
     supplierId: ''
   });
+
   const currencies: string[] = ['USD', 'EUR', 'LBP'];
   
   const { data: product, refetch: refetchId } = useGetProductQuery(id!, { skip: !id });
-
-  useEffect(() => {
-    if (product) {
-      setFormData(product);
-    }
-  }, [product]);
-
   const { data  } = useGetCategoriesQuery({ page: 1, pageSize: 10000 });
   const { data: suppliersList} = useGetSuppliersQuery({ page: 1, pageSize: 10000 });
 
   const categories = data?.items || [];
   const suppliers = suppliersList?.items || [];
+
+  const supplier = suppliers.find((sup) => sup.id === formData.supplierId);
+  const category = categories.find((cat) => cat.id === formData.categoryId);
+  useEffect(() => {
+    if (product) {
+      setFormData(product);
+      supplier && setFormData({
+        ...product,
+        supplierId: supplier.id
+      });
+      category && setFormData({
+        ...product,
+        categoryId: category
+      });
+    }
+  }, [product]);
+
+
+  
   const [createProduct, { isLoading: isLoadingCreate}] = useCreateProductMutation();
   const [updateProduct, {isLoading: isLoadingUpdate}] = useUpdateProductMutation();
   
@@ -133,6 +146,9 @@ const ProductForm: React.FC<Props> = ({ id , refetch:refetchAll}) => {
       refetchAll();
     }
   }
+
+
+  console.log(formData);
   const isFormData = formData.name === '' ||
     formData.cost === 0 ||
     formData.price === 0 ||
@@ -141,7 +157,6 @@ const ProductForm: React.FC<Props> = ({ id , refetch:refetchAll}) => {
     formData.categoryId === '' ||
     formData.supplierId === '';
 
-  console.log(isFormData,formData);
   
   return (
     <Container component={'form'}  onSubmit={handleSubmit}>
@@ -258,7 +273,7 @@ const ProductForm: React.FC<Props> = ({ id , refetch:refetchAll}) => {
           </Select>
         </FormControl>
         <Box display={'flex'} gap={2}>
-        <Autocomplete
+            <Autocomplete
               options={categories}
               getOptionLabel={(option) => option.name}
               onChange={(_, newValue) =>
@@ -267,17 +282,16 @@ const ProductForm: React.FC<Props> = ({ id , refetch:refetchAll}) => {
                   categoryId: newValue?.id || "",
                 })
               }
-              value={categories.find(
-                (category) => category.id === formData.categoryId
-              )}
+              value={category}
               fullWidth
               renderInput={(params) => (
                 <TextField
-                  required
+                  
                   margin="dense"
                   {...params}
-                  label="Categories"
-                  name="categoryId"
+                  label="Category"
+                  name="category"
+                  value={category}
                 />
               )}
             />
@@ -290,17 +304,16 @@ const ProductForm: React.FC<Props> = ({ id , refetch:refetchAll}) => {
                   supplierId: newValue?.id || "",
                 })
               }
-              value={suppliers.find(
-                (supplier) => supplier.id === formData.supplierId
-              )}
+              value={supplier}
               fullWidth
               renderInput={(params) => (
                 <TextField
-                  required
+                  
                   margin="dense"
                   {...params}
                   label="Supplier"
-                  name="supplierId"
+                  name="supplier"
+                  value={supplier}
                 />
               )}
             />

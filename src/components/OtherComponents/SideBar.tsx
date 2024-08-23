@@ -44,7 +44,9 @@ const SideBar = () => {
     const handleLogin = () => {
         dispatch(openModal(<LoginForm/>));
     }
-    const authContent: Items =  userInfo ? {name:'Logout', icon:<LogoutOutlined/>, onClick:handleLogout} : {name:'Login', icon:<LoginOutlined/>, onClick:handleLogin};
+    const authContent: Items =  userInfo 
+    ? {name:'Logout', icon:<LogoutOutlined/>, onClick:handleLogout} 
+    : {name:'Login', icon:<LoginOutlined/>, onClick:handleLogin};
 
     const menuItems: Items[]= [
         {name:'Dashboard',icon:<Home/> , onClick:() => navigate('/dashboard')},
@@ -86,7 +88,7 @@ const SideBar = () => {
         }}
     >
         <Box px={2} py={2}>
-            <Typography variant='h4' color={colors.gray[900]}>Inventory System</Typography>
+            <Typography variant='h4' sx={{cursor:"pointer"}} color={colors.gray[900]} onClick={() => navigate('/')}>Inventory System</Typography>
         </Box>
         <List>
             {contet}

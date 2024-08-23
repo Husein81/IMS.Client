@@ -23,12 +23,12 @@ const CategoriesPage = () => {
   }
   return (
     <Container>
-      <Box py={2}  display={'flex'} alignItems={'center'}  justifyContent={'space-between'}>
+      <Box py={1}  display={'flex'} alignItems={'center'}  justifyContent={'space-between'}>
           <Typography variant='h3' gutterBottom>Categories</Typography>
           <Button 
             variant='contained' 
             color="primary"
-            sx={{color:colors.white[500], height:'45px'}}  
+            sx={{color:colors.white[500], height:'40px'}}  
             onClick={handleAddCategory}>
               <Add/>
             </Button>

@@ -43,7 +43,7 @@ const DailyRevenueProfitCostForWeeks:React.FC<Props> = ({data, isLoading}) => {
                 legendPosition: 'middle',
             }}
             colors={{ scheme: 'nivo'}}
-            pointSize={8}
+            pointSize={0}
             pointColor={{ theme: 'background' }}
             pointBorderWidth={2}
             pointBorderColor={{ from: 'serieColor' }}

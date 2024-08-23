@@ -5,9 +5,6 @@ import {
   CardContent, 
   Typography } from "@mui/material"
 import { Product } from "../../app/models/Product";
-import { useDispatch,  } from "react-redux";
-import { addToCart } from "../../app/redux/Slice/OrderSlice";
-import { useState } from "react";
 
 
 
@@ -15,22 +12,6 @@ interface Props {
   product: Product;
 }
 const ProductCard:React.FC<Props> = ({ product }) => {
-  
-  const dispatch = useDispatch();
-  const [qty] = useState(1);
-  
-  const addToCartHandler = async () =>{
-    dispatch(addToCart({
-      id: product.id ?? '',
-      name: product.name,
-      price: product.price ?? 0,
-      qty,
-      productId: product.id ?? '',
-      product: product ?? null,
-      discount: 0
-    }));
-  }
-
   return (
     <Card 
       sx={{
@@ -40,7 +21,7 @@ const ProductCard:React.FC<Props> = ({ product }) => {
         display:'flex', 
         justifyContent:'space-between' ,
         alignItems:'center'}} 
-      onClick={addToCartHandler}>
+      >
     <Box component={'img'} loading="lazy" src={product.imageUrls[0]} className="h-20 w-20 rounded"/>
     <CardContent>
       <Typography variant="h6">Name:

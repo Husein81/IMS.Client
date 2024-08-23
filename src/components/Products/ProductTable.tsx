@@ -87,6 +87,13 @@ const ProductTable: React.FC<Props>= ({colors, products,pageModel, setPageModel,
       { field: 'quantity', headerName: 'Quantity', width: 100 },
       { field: 'cost', headerName: 'Cost', width: 100 },
       { field: 'price', headerName: 'Price', width: 100 },
+      { field: 'status', headerName:'Status', width:100, 
+        renderCell:(params) => (
+          <Box className={params.row.quantity > 0 ? '' : 'text-red-800'}>
+            {params.row.quantity > 0 ? 'In Stock' : 'Out Of Stock'}
+          </Box>
+        )
+      },
       { field: 'currency', headerName: 'Currency', width: 100 },
       { field: 'categoryName',headerName:'Category',width: 100 },
       { field: 'supplierId', headerName: 'Supplier', width: 100 },
@@ -122,17 +129,17 @@ const ProductTable: React.FC<Props>= ({colors, products,pageModel, setPageModel,
       }
     };
 
-    if (isLoading) return <Loader color={colors.blue[500]} />;
+    if (isLoading) return <Loader />;
 
   return (
-      <Box >
+      <Box py={1}>
         <DataGrid
           sx={DataGridStyle}
           rows={rows}
           columns={columns}
           paginationMode="server"
           initialState={initialState}
-          pageSizeOptions={[10, 25, 50, 100]}
+          pageSizeOptions={[9, 25, 50, 100]}
           paginationModel={{ pageSize: pageModel.pageSize, page: pageModel.page }}
           onPaginationModelChange={(model) => handlePaginationChange(model)}
           rowCount={products?.pagination.totalCount || 0}  

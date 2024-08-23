@@ -32,13 +32,17 @@ const SupplierInvoicePage= () => {
   return (
     <Container>
         <Box display={'flex'} pt={2} justifyContent={'space-between'}>
-            <Box>
-                <Typography variant='h3'>
+            <Box
+            p={1}
+            className="border-2 rounded border-slate-300 bg-slate-200" >
+                <Typography variant='h3' color={'secondary'}>
                   Supplier Name:  {supplierName}
                 </Typography>
             </Box>
-            <Box>
-                <Typography variant='h3'>
+            <Box 
+                p={1}
+                className="border-2 rounded border-slate-300 bg-slate-200" >
+                <Typography variant='h3' color="secondary">
                     Total Ammount: $ {totalAmount}
                 </Typography>
             </Box>
