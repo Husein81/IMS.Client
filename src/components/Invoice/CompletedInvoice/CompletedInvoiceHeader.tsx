@@ -1,10 +1,8 @@
-import { Search } from "@mui/icons-material"
-import { Box, Button, IconButton, InputBase, Typography } from "@mui/material"
+
 import { FC } from "react";
-import { Link } from "react-router-dom"
 import { ColorSet } from "../../../Theme";
 import { Pagination } from "../../../app/models/Pagination/pagination";
-import {List} from "@mui/icons-material";
+import Header from "../../Other/Header";
 type Props = {
     colors: ColorSet;
     pageModel: Pagination;
@@ -16,34 +14,14 @@ const CompletedInvoiceHeader: FC<Props> = ({
     handleSearchTermChange
 }) => {
   return (
-    <Box py={2} display={'flex'} alignItems={'center'}  justifyContent={'space-between'} gap={2}>
-        <Typography variant="h3" gutterBottom>Invoice</Typography>
-        <Box
-          display={'flex'}
-          borderRadius={'3px'}
-          bgcolor={colors.white[500]}
-          height={'50px'}
-          width={'100%'}>
-          <InputBase
-            sx={{ mx: 2, flex: 1, bgcolor: colors.white[500], color: 'black' }}
-            placeholder="Search"
-            name="searchTerm"
-            type="search"
-            value={pageModel.searchTerm}
-            onChange={handleSearchTermChange}
-            />
-          <IconButton sx={{ borderRadius: 1, p: 1 }}>
-            <Search />
-          </IconButton>
-        </Box>
-        <Box width={240} >
-          <Link to='/invoice'>
-            <Button variant="contained" className='h-[50px]' >
-                <List/>
-            </Button>
-          </Link>
-        </Box>
-      </Box>
+    <Header
+      title={'Completed'}
+      isCompletedInvoice={true}
+      isInvoice={true}
+      colors={colors}
+      pageModel={pageModel}
+      searchTermHandler={handleSearchTermChange}
+    />
   )
 }
 export default CompletedInvoiceHeader

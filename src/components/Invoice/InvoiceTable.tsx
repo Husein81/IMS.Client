@@ -5,7 +5,7 @@ import { token } from "../../Theme";
 import { Pagination } from "../../app/models/Pagination/pagination";
 import React from "react";
 import { useDeleteOrderMutation, useUpdateOrderStatusMutation } from "../../app/redux/Slice/orderApi";
-import Loader from "../OtherComponents/Loader";
+import Loader from "../Other/Loader";
 import { GridInitialStateCommunity } from "@mui/x-data-grid/models/gridStateCommunity";
 import { CheckCircle, CreditCardOff, Delete, Edit,PictureAsPdf } from "@mui/icons-material";
 import { Order } from "../../app/models/Order";
@@ -14,6 +14,7 @@ import { OrderPagination } from "../../app/models/Pagination/OrderPagination";
 import { openModal } from "../../app/redux/Slice/modalSlice";
 import PaymentForm from "./PaymentForm";
 import { useDispatch } from "react-redux";
+import DeletingForm from "../Other/DeletingForm";
 
 
 interface Props{
@@ -34,14 +35,10 @@ const InvoiceTable:React.FC<Props> = ({ orders: data,isLoading, pageModel, setPa
   const handlePaginationChange = (modal: Pagination) => {
     setPageModel(modal);
   };
-  const handleDelete = async(id: string) => {
-    try{
-      await deleteOrder(id).unwrap();
-    }catch(error){
-      console.error(error);
-    }finally{
-      refetch();
-    }
+  const deleteHandler = async (id:string) => {
+    dispatch(openModal(<DeletingForm 
+      deleteItem={() => deleteOrder(id)}
+      refetch={refetch} />));
   }
 
   const orders = data?.items.map((order:Order) => {
@@ -116,7 +113,7 @@ const InvoiceTable:React.FC<Props> = ({ orders: data,isLoading, pageModel, setPa
           </IconButton> */}
           <IconButton 
             color="primary" 
-            onClick={() => handleDelete(params.row.id)}
+            onClick={() => deleteHandler(params.row.id)}
             disabled={isLoadingDelete}
           >
             <Delete />

@@ -28,7 +28,7 @@ const ProductsFilter: FC<Props> = ({ categories, setCategory, selectCategoryHand
     <Box key={category.id} px={'2px'}>
       <Button
         fullWidth
-        variant="outlined"
+        variant="contained"
         color="primary"
         onClick={() => selectCategoryHandler(category)}
       >
@@ -39,7 +39,7 @@ const ProductsFilter: FC<Props> = ({ categories, setCategory, selectCategoryHand
 
   return (
     <Box display="flex" flexDirection="column" gap={1}>
-      <Button variant="outlined" color="primary" onClick={() => setCategory(null)}>
+      <Button variant="contained" color="primary" onClick={() => setCategory(null)}>
         All
       </Button>
       <Box> 

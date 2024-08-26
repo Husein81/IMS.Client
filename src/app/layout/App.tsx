@@ -2,11 +2,9 @@ import { Box, Container } from "@mui/material"
 import { Outlet, useLocation } from "react-router-dom"
 import HomePage from "./HomePage"
 import ModalContainer from "../../components/Modals/ModalContainer"
-import SideBar from "../../components/OtherComponents/SideBar"
+import SideBar from "../../components/Other/SideBar"
 import { ColorModeContext, token, useMode } from "../../Theme"
 import { ThemeProvider } from "@emotion/react"
-import { useSelector } from "react-redux"
-import { RootState } from "../redux/Store"
 // import NavBar from "../../components/OtherComponents/NavBar"
 
 function App() {
@@ -14,8 +12,6 @@ function App() {
   const colors = token(theme.palette.mode);
   const location = useLocation();
 
-  const {userInfo} = useSelector((state: RootState) => state.auth);
-  console.log(userInfo);
   return (
     <>
     <ColorModeContext.Provider value={colorMode}>
@@ -33,7 +29,7 @@ function App() {
             >
               <SideBar/>
               <Container sx={{pt:3,}}>
-                {/* <NavBar/> */}
+                
                 <Outlet/>
               </Container>
             </Box>

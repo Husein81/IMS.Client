@@ -6,13 +6,14 @@ import { Delete, Edit, Receipt } from "@mui/icons-material";
 import { ColorSet } from "../../Theme";
 import { useDeleteSupplierMutation } from "../../app/redux/Slice/supplierApi";
 import { useDispatch } from "react-redux";
-import Loader from "../OtherComponents/Loader";
+import Loader from "../Other/Loader";
 import { Pagination } from "../../app/models/Pagination/pagination";
 import { SupplierPagination } from "../../app/models/Pagination/SupplierPagination";
 import { GridInitialStateCommunity } from "@mui/x-data-grid/models/gridStateCommunity";
 import { openModal } from "../../app/redux/Slice/modalSlice";
 import SupplierForm from "./SupplierForm";
 import { useNavigate } from "react-router-dom";
+import DeletingForm from "../Other/DeletingForm";
 
 interface Props{
     suppliers: SupplierPagination,
@@ -30,13 +31,10 @@ const SupplierTable: React.FC<Props> = ({colors, suppliers, pageModel, setPageMo
     const handlePaginationChange = (modal: Pagination) => {
       setPageModel(modal);
     };
-    const handleDelete = async (id: string) => {
-      try{
-        dispatch(await deleteSupplier(id).unwrap());
-      }catch(err){
-        console.log(err);
-      }
-      refetch();
+    const deleteHandler = async (id:string) => {
+      dispatch(openModal(<DeletingForm 
+        deleteItem={() => deleteSupplier(id)}
+        refetch={refetch} />));
     }
     const handleEdit = (id: string) => {
       dispatch(openModal(<SupplierForm refetch={refetch} id={id}/>));
@@ -65,7 +63,7 @@ const SupplierTable: React.FC<Props> = ({colors, suppliers, pageModel, setPageMo
               <IconButton onClick={() => handleEdit(params.row.id)}>
                 <Edit/>
               </IconButton>
-              <IconButton onClick={() => handleDelete(params.row.id)}>
+              <IconButton onClick={() => deleteHandler(params.row.id)}>
                 <Delete/>
               </IconButton>
             </Box>

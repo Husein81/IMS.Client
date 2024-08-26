@@ -5,7 +5,7 @@ import { ColorSet } from "../../Theme";
 import { 
     useDeleteCategoryMutation 
 } from "../../app/redux/Slice/categoryApi";
-import Loader from "../OtherComponents/Loader";
+import Loader from "../Other/Loader";
 import { Delete, Edit } from "@mui/icons-material";
 import { useDispatch } from "react-redux";
 import { openModal } from "../../app/redux/Slice/modalSlice";
@@ -14,6 +14,7 @@ import { GridInitialStateCommunity } from "@mui/x-data-grid/models/gridStateComm
 import { useState } from "react";
 import { Pagination } from "../../app/models/Pagination/pagination";
 import { CategoryPagination } from "../../app/models/Pagination/CategoryPagination";
+import DeletingForm from "../Other/DeletingForm";
 
 interface Props{
   colors: ColorSet;
@@ -42,15 +43,11 @@ const CategoriesTable:React.FC<Props> = ({ colors, isLoading, refetch, categorie
       dispatch(openModal(<CategoriesForm refetch={refetch} id={id}/>));
 
     }
-    const handleDelete = async (id: string) => {
-      try{
-        dispatch(await deleteCategory(id).unwrap());
-      }catch(err){
-        console.log(err);
-      }finally{
-        refetch();
-      }
-    };
+    const deleteHandler = async (id:string) => {
+      dispatch(openModal(<DeletingForm 
+        deleteItem={() => deleteCategory(id)}
+        refetch={refetch} />));
+    }
 
     const handlePaginationChange = (modal: GridPaginationModel) => {
       setPageModal(modal);
@@ -91,7 +88,7 @@ const CategoriesTable:React.FC<Props> = ({ colors, isLoading, refetch, categorie
                 </IconButton>
                 <IconButton 
                   color="primary" 
-                  onClick={() => handleDelete(params.row.id)}
+                  onClick={() => deleteHandler(params.row.id)}
                   disabled={isLoadingDelete}
                 >
                   <Delete />

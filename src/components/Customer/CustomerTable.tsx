@@ -8,6 +8,8 @@ import { useDispatch } from "react-redux";
 import { Pagination } from "../../app/models/Pagination/pagination";
 import { GridInitialStateCommunity } from "@mui/x-data-grid/models/gridStateCommunity";
 import { CustomerPagination } from "../../app/models/Pagination/CustomerPagination";
+import DeletingForm from "../Other/DeletingForm";
+import { openModal } from "../../app/redux/Slice/modalSlice";
 
 type Props = {
     colors: ColorSet;
@@ -23,13 +25,10 @@ const CustomerTable: React.FC<Props> = ({ colors,pageModel ,setPageModel, custom
     const handlePaginationChange = (modal: {pageSize:number, page:number}) => {
       setPageModel(modal);
     };
-    const handleDelete = async (id: string) => {
-        try{
-            dispatch(await deleteCustomer(id).unwrap());
-        }catch(err){
-            console.log(err);
-        }
-        refetch();
+    const deleteHandler = async (id:string) => {
+      dispatch(openModal(<DeletingForm 
+        deleteItem={() => deleteCustomer(id)}
+        refetch={refetch} />));
     }
     const DataGridStyle = {
         height: 500,
@@ -63,7 +62,7 @@ const CustomerTable: React.FC<Props> = ({ colors,pageModel ,setPageModel, custom
                     <IconButton>
                         <Edit/>
                     </IconButton>
-                    <IconButton onClick={() => handleDelete(params.row.id)}>
+                    <IconButton onClick={() => deleteHandler(params.row.id)}>
                         <Delete/>
                     </IconButton>
                 </Box>

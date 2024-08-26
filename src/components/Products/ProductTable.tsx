@@ -4,7 +4,7 @@ import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { 
   useDeleteProductMutation,
 } from "../../app/redux/Slice/productApi";
-import Loader from "../OtherComponents/Loader";
+import Loader from "../Other/Loader";
 import {Delete,Edit}from '@mui/icons-material';
 import { GridInitialStateCommunity } from "@mui/x-data-grid/models/gridStateCommunity";
 import { ColorSet } from "../../Theme";
@@ -14,6 +14,7 @@ import { useDispatch } from "react-redux";
 import { ProductPagination } from "../../app/models/Pagination/ProductPagination";
 import ProductForm from "./ProductForm";
 import { openModal } from "../../app/redux/Slice/modalSlice";
+import DeletingForm from "../Other/DeletingForm";
 
 interface Props{
   colors: ColorSet;
@@ -59,14 +60,11 @@ const ProductTable: React.FC<Props>= ({colors, products,pageModel, setPageModel,
       dispatch(openModal(<ProductForm refetch={refetch} id={id}/>));
     };
     
-    const handleDelete = async (id: string) => {
-      try{
-        dispatch(await deleteProduct(id).unwrap());
-      }catch(error){
-        console.error(error);
-      }
-      refetch();
-    };
+    const deleteHandler = async (id:string) => {
+      dispatch(openModal(<DeletingForm 
+        deleteItem={() => deleteProduct(id)}
+        refetch={refetch} />));
+    }
     
     const rows = products?.items.map((product ,index) => {
       return {
@@ -111,7 +109,7 @@ const ProductTable: React.FC<Props>= ({colors, products,pageModel, setPageModel,
             </IconButton>
             <IconButton 
               color="primary" 
-              onClick={() => handleDelete(params.row.id)}
+              onClick={() => deleteHandler(params.row.id)}
               disabled={isLoadingDelete}
             >
               <Delete />

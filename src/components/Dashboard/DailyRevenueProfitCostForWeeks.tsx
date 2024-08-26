@@ -1,5 +1,5 @@
 import { ResponsiveLine } from '@nivo/line';
-import Loader from '../OtherComponents/Loader';
+import Loader from '../Other/Loader';
 
 
 type GraphDataPoint = {

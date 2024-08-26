@@ -4,7 +4,7 @@ import { GridInitialStateCommunity } from "@mui/x-data-grid/models/gridStateComm
 import { ProductPagination } from "../../../app/models/Pagination/ProductPagination";
 import { Pagination } from "../../../app/models/Pagination/pagination";
 import { ColorSet } from "../../../Theme";
-import Loader from "../../OtherComponents/Loader";
+import Loader from "../../Other/Loader";
 
 
 type Props ={

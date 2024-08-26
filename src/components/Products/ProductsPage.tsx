@@ -16,9 +16,10 @@ import { openModal } from "../../app/redux/Slice/modalSlice";
 import { useGetCategoriesQuery } from "../../app/redux/Slice/categoryApi";
 import { Category } from "../../app/models/Category";
 import ProductHeader from "./ProductHeader";
+import ProductsFilter from "./ProductsFilter";
 
 const ProductsPage = () => {
-    const [toggle, setToggle] = useState(false);
+    const [toggle, setToggle] = useState(true);
     const theme = useTheme();
     const colors = token(theme.palette.mode);
     const dispatch = useDispatch();
@@ -53,6 +54,7 @@ const ProductsPage = () => {
       page:1,
       pageSize:1000
     });
+    console.log(categories);
 
     const handleAddProduct = () => {
       dispatch(openModal(<ProductForm refetch={refetch}/>));
@@ -67,12 +69,15 @@ const ProductsPage = () => {
         handleAddProduct={handleAddProduct}
         toggle={toggle}
         setToggle={setToggle}
-        categories={categories?.items || []}
-        setCategory={setCategory}
-        selectCategoryHabdler={selectCategoryHabdler}
       />
-     {!toggle ?
+     {toggle ?
       <Box display={'flex'} flexDirection={'column'}>
+        <Box>
+            <ProductsFilter 
+              categories={categories?.items || []} 
+              setCategory={setCategory} 
+              selectCategoryHandler={selectCategoryHabdler}/>
+        </Box>
         <Box height={'70vh'}>
           <ProductList   
             products={category ? (productsByCategory?.items || []) : (data?.items || [])} 
@@ -80,7 +85,6 @@ const ProductsPage = () => {
             colors={colors}
           /> 
         </Box>
-        <br/>
         <Box>
           <Pagination
             count={data?.pagination.totalPages || 0}
@@ -93,6 +97,7 @@ const ProductsPage = () => {
             shape="rounded"
             />
         </Box>
+
       </Box>
       : 
         <ProductTable 

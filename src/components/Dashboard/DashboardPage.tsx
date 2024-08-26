@@ -24,8 +24,8 @@ import LowStockItems from "./LowStockItems";
 import WeeklyRevenueProfitCost from "./DailyRevenueProfitCostForWeeks";
 import { useEffect, useState } from "react";
 import { useGetCompletedOrdesQuery } from "../../app/redux/Slice/orderApi";
-import Loader from "../OtherComponents/Loader";
-import NavBar from "../OtherComponents/NavBar";
+import Loader from "../Other/Loader";
+import NavBar from "../Other/NavBar";
 
 
 export interface DashboardCardProps {
@@ -93,8 +93,8 @@ const DashboardPage = () => {
       <NavBar title="Dashboard"/>
       <Box pt={2} display={'flex'} justifyContent={'flex-end'}>
           <Box display={'flex'} justifyContent={'space-between'} gap={1}>
-            <Button variant="contained" onClick={dailyHandler}>Daily</Button>
-            <Button variant="contained" onClick={monthHandler}>Monthly</Button>
+            <Button variant="contained" onClick={dailyHandler} sx={{py:1}}>Daily</Button>
+            <Button variant="contained" onClick={monthHandler}sx={{py:1}} >Monthly</Button>
           </Box>
       </Box>
       <Box pt={2}>

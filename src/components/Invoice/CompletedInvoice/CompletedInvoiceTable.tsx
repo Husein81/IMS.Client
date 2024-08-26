@@ -5,12 +5,15 @@ import { token } from "../../../Theme";
 import { Pagination } from "../../../app/models/Pagination/pagination";
 import React from "react";
 import { useDeleteOrderMutation } from "../../../app/redux/Slice/orderApi";
-import Loader from "../../OtherComponents/Loader";
+import Loader from "../../Other/Loader";
 import { GridInitialStateCommunity } from "@mui/x-data-grid/models/gridStateCommunity";
 import { Delete, PictureAsPdf } from "@mui/icons-material";
 import { Order } from "../../../app/models/Order";
 import { useNavigate } from "react-router-dom";
 import { OrderPagination } from "../../../app/models/Pagination/OrderPagination";
+import { openModal } from "../../../app/redux/Slice/modalSlice";
+import DeletingForm from "../../Other/DeletingForm";
+import { useDispatch } from "react-redux";
 
 
 interface Props{
@@ -21,7 +24,7 @@ interface Props{
   refetch: () => any;
 }
 const CompletedInvoiceTable:React.FC<Props> = ({ orders: data,isLoading, pageModel, setPageModel, refetch}) => {
- 
+  const dispatch = useDispatch();
   const theme = useTheme();
   const colors = token(theme.palette.mode);
 
@@ -31,14 +34,10 @@ const CompletedInvoiceTable:React.FC<Props> = ({ orders: data,isLoading, pageMod
     setPageModel(modal);
   };
 
-  const handleDelete = async(id: string) => {
-    try{
-      await deleteOrder(id).unwrap();
-    }catch(error){
-      console.error(error);
-    }finally{
-      refetch();
-    }
+  const deleteHandler = async (id:string) => {
+    dispatch(openModal(<DeletingForm 
+      deleteItem={() => deleteOrder(id)}
+      refetch={refetch} />));
   }
 
   const orders = data?.items.map((order:Order) => {
@@ -73,7 +72,7 @@ const CompletedInvoiceTable:React.FC<Props> = ({ orders: data,isLoading, pageMod
           </IconButton> */}
           <IconButton 
             color="primary" 
-            onClick={() => handleDelete(params.row.id)}
+            onClick={() => deleteHandler(params.row.id)}
             disabled={isLoadingDelete}
           >
             <Delete />

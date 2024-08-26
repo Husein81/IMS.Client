@@ -1,7 +1,7 @@
 import { Box } from "@mui/material"
 import { Product } from "../../app/models/Product";
 import ProductCard from "./ProductCard";
-import Loader from "../OtherComponents/Loader";
+import Loader from "../Other/Loader";
 import { ColorSet } from "../../Theme";
 
 

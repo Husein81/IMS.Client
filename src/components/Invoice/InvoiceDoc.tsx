@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Box, Button } from "@mui/material";
-import Loader from "../OtherComponents/Loader";
+import Loader from "../Other/Loader";
 import { useGetOrderQuery } from "../../app/redux/Slice/orderApi";
 import InvoicePDF from "./InvoicePDF";
 import html2pdf from 'html2pdf.js';

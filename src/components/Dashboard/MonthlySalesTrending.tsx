@@ -1,7 +1,7 @@
 import { TrendingUp } from "@mui/icons-material";
 import { Card, List, ListItem, Typography } from "@mui/material"
 import { FC } from "react"
-import Loader from "../OtherComponents/Loader";
+import Loader from "../Other/Loader";
 
 type SalesTrending = {
     month:string;

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Autocomplete, Box, Button, Container, FormControl, FormGroup, FormLabel, IconButton, InputLabel, MenuItem, Select, TextField, Typography, useTheme } from "@mui/material"
+import { Autocomplete, Box, Button, Container, FormControl, FormGroup, FormLabel, InputLabel, MenuItem, Select, TextField, Typography, useTheme } from "@mui/material"
 import React, { useEffect, useState } from "react";
 import { useGetCategoriesQuery } from "../../app/redux/Slice/categoryApi";
 import { useCreateProductMutation, useGetProductQuery, useUpdateProductMutation } from "../../app/redux/Slice/productApi";
@@ -7,10 +7,11 @@ import { useGetSuppliersQuery } from "../../app/redux/Slice/supplierApi";
 import { Product } from "../../app/models/Product";
 import { deleteObject, getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage';
 import { app } from "../../fire";
-import { Cancel, Upload } from "@mui/icons-material";
 import { token } from "../../Theme";
 import { useDispatch } from "react-redux";
 import { closeModal } from "../../app/redux/Slice/modalSlice";
+import ImageInput from "../Other/ImageInput";
+import ImageOutput from "../Other/ImageOutput";
 
 
 interface Props{
@@ -58,7 +59,7 @@ const ProductForm: React.FC<Props> = ({ id , refetch:refetchAll}) => {
         categoryId: category
       });
     }
-  }, [product]);
+  }, [product, supplier, category]);
 
 
   
@@ -148,7 +149,7 @@ const ProductForm: React.FC<Props> = ({ id , refetch:refetchAll}) => {
   }
 
 
-  console.log(formData);
+
   const isFormData = formData.name === '' ||
     formData.cost === 0 ||
     formData.price === 0 ||
@@ -225,52 +226,29 @@ const ProductForm: React.FC<Props> = ({ id , refetch:refetchAll}) => {
             value={formData.description}
             onChange={handleChange}
           />
-          <Box display={'flex'} gap={2} sx={{py:1}}>
-            <IconButton component="label" sx={{ display: 'inline-block', border:1, borderRadius:1, borderColor:'#aeaeae' }}>
-              <input 
-              type="file" 
-              accept="image/*" 
-              hidden 
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setImages(e.target.files)} multiple />
-              <Upload  fontSize="large"/>
-            </IconButton>
-            <Button variant="contained" color="secondary" sx={{color:'white'}} onClick={handleImageSubmit}>
-                {loadingUpload ? 'Uploading...' : 'Upload'}
-            </Button>
-          </Box>
-          <Box sx={{display:'flex', gap:2}}>
-            {formData.imageUrls.length > 0 && formData.imageUrls.map((url: string, i: number) => (
-              <Box
-              key={i}
-              className="flex justify-between p-3 border rounded-md"
-              width={150}
-              >
-                <img
-                  src={url}
-                  alt="listing image"
-                  className="w-20 h-20 object-contain rounded-lg"
-                />
-                <IconButton
-                  sx={{'&:hover':{bgcolor:'transparent'},height:'fit-content', color:colors.black[500]}}
-                  onClick={() => handleRemoveImage(url, i)} >
-                  <Cancel/>
-                </IconButton>
-              </Box>
-            ))}
-          </Box>
+          <ImageInput
+            setImages={setImages}
+            handleImageSubmit={handleImageSubmit}
+            loadingUpload={loadingUpload}
+          />
+          <ImageOutput
+            colors={colors}
+            formData={formData}
+            handleRemoveImage={handleRemoveImage}
+          />
           <FormControl fullWidth margin="dense">
-          <InputLabel>Currency</InputLabel>
-          <Select
-            name="currency"
-            value={formData.currency}
-            onChange={handleChange}
-          >
-            {currencies.map((currency: string, index:number) => (
-              <MenuItem key={index} value={currency}>
-                {currency}
-              </MenuItem>
-            ))}
-          </Select>
+            <InputLabel>Currency</InputLabel>
+            <Select
+              name="currency"
+              value={formData.currency}
+              onChange={handleChange}
+            >
+              {currencies.map((currency: string, index:number) => (
+                <MenuItem key={index} value={currency}>
+                  {currency}
+                </MenuItem>
+              ))}
+            </Select>
         </FormControl>
         <Box display={'flex'} gap={2}>
             <Autocomplete
