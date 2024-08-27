@@ -299,12 +299,10 @@ const ProductForm: React.FC<Props> = ({ id, refetch: refetchAll }) => {
           </FormControl>
           <Box display={"flex"} gap={2}>
             <Autocomplete
-              disablePortal
+              fullWidth
               options={categories}
               getOptionLabel={(category) => category.name}
-              value={
-                categories.find((cat) => cat.id === formData.categoryId) || null
-              }
+              value={categories.find((cat) => cat.id === formData.categoryId)}
               onChange={(_, newValue) => {
                 setFormData({
                   ...formData,
@@ -322,12 +320,10 @@ const ProductForm: React.FC<Props> = ({ id, refetch: refetchAll }) => {
             />
 
             <Autocomplete
-              disablePortal
+              fullWidth
               options={suppliers}
               getOptionLabel={(supplier) => supplier.name}
-              value={
-                suppliers.find((sup) => sup.id === formData.supplierId) || null
-              }
+              value={suppliers.find((sup) => sup.id === formData.supplierId)}
               onChange={(_, newValue) => {
                 setFormData({
                   ...formData,
