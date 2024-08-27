@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Box, IconButton, useTheme } from "@mui/material"
-import { DataGrid, GridColDef } from "@mui/x-data-grid"
+import { Box, IconButton, useTheme } from "@mui/material";
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { token } from "../../../Theme";
 import { Pagination } from "../../../app/models/Pagination/pagination";
 import React from "react";
@@ -15,63 +15,72 @@ import { openModal } from "../../../app/redux/Slice/modalSlice";
 import DeletingForm from "../../Other/DeletingForm";
 import { useDispatch } from "react-redux";
 
-
-interface Props{
+interface Props {
   orders: OrderPagination;
   pageModel: Pagination;
   isLoading: boolean;
-  setPageModel: React.Dispatch<React.SetStateAction<Pagination>>;  
+  setPageModel: React.Dispatch<React.SetStateAction<Pagination>>;
   refetch: () => any;
 }
-const CompletedInvoiceTable:React.FC<Props> = ({ orders: data,isLoading, pageModel, setPageModel, refetch}) => {
+const CompletedInvoiceTable: React.FC<Props> = ({
+  orders: data,
+  isLoading,
+  pageModel,
+  setPageModel,
+  refetch,
+}) => {
   const dispatch = useDispatch();
   const theme = useTheme();
   const colors = token(theme.palette.mode);
 
-  const [deleteOrder, {isLoading: isLoadingDelete}] = useDeleteOrderMutation();
+  const [deleteOrder, { isLoading: isLoadingDelete }] =
+    useDeleteOrderMutation();
 
   const handlePaginationChange = (modal: Pagination) => {
     setPageModel(modal);
   };
 
-  const deleteHandler = async (id:string) => {
-    dispatch(openModal(<DeletingForm 
-      deleteItem={() => deleteOrder(id)}
-      refetch={refetch} />));
-  }
+  const deleteHandler = async (id: string) => {
+    dispatch(
+      openModal(
+        <DeletingForm deleteItem={() => deleteOrder(id)} refetch={refetch} />
+      )
+    );
+  };
 
-  const orders = data?.items.map((order:Order) => {
+  const orders = data?.items.map((order: Order) => {
     return {
       ...order,
-      orderDate: new Date(order?.updatedAt || '').toLocaleDateString('en-GB').split('T')[0] ,
-    }
+      orderDate: new Date(order?.updatedAt || "")
+        .toLocaleDateString("en-GB")
+        .split("T")[0],
+    };
   });
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const handleInvoicePDF = (id: string) => {
     navigate(`/invoice/${id}`);
-  }
+  };
 
- 
   const columns: GridColDef[] = [
-    { field: 'customer', headerName: 'Customer', width: 100 },
-    { field: 'orderDate', headerName: 'Date', width: 200 },
-    { field: 'orderStatus', headerName: 'Status', width: 100},
-    { field: 'totalAmount', headerName: 'Total', width: 100 },
+    { field: "customer", headerName: "Customer", width: 100 },
+    { field: "orderDate", headerName: "Date", width: 200 },
+    { field: "orderStatus", headerName: "Status", width: 100 },
+    { field: "totalAmount", headerName: "Total", width: 100 },
     {
-      field: 'actions',
-      headerName: 'Actions',
+      field: "actions",
+      headerName: "Actions",
       width: 100,
       renderCell: (params) => (
-        <Box >
+        <Box>
           {/* <IconButton 
             color="primary" 
             // onClick={() => handleEdit(params.row.id)}
           >
             <Edit />
           </IconButton> */}
-          <IconButton 
-            color="primary" 
+          <IconButton
+            color="primary"
             onClick={() => deleteHandler(params.row.id)}
             disabled={isLoadingDelete}
           >
@@ -81,61 +90,61 @@ const CompletedInvoiceTable:React.FC<Props> = ({ orders: data,isLoading, pageMod
       ),
     },
     {
-      field: 'invoice',
-      headerName: 'Invoice',
+      field: "invoice",
+      headerName: "Invoice",
       width: 100,
       renderCell: (params) => (
-        <IconButton 
-          color="primary" 
+        <IconButton
+          color="primary"
           onClick={() => handleInvoicePDF(params.row.id)}
         >
-          <PictureAsPdf/>
+          <PictureAsPdf />
         </IconButton>
       ),
     },
   ];
 
   const DataGridStyle = {
-    backgroundColor:colors.white[600],
+    backgroundColor: colors.white[600],
     height: 580,
-    '& .MuiDataGrid-scrollbar':{
-      width:0
+    "& .MuiDataGrid-scrollbar": {
+      width: 0,
     },
-    '& .MuiSvgIcon-root':{
-      color:colors.gray[500]
+    "& .MuiSvgIcon-root": {
+      color: colors.gray[500],
     },
-    '& .MuiDataGrid-overlay':{
-      backgroundColor:colors.white[500],
+    "& .MuiDataGrid-overlay": {
+      backgroundColor: colors.white[500],
     },
-    
-    '& .MuiDataGrid-row':{
-      color:'#242424',
-     '&:nth-of-type(even)':{
-      backgroundColor:colors.white[500] ,
-     }
-    }
+
+    "& .MuiDataGrid-row": {
+      color: "#242424",
+      "&:nth-of-type(even)": {
+        backgroundColor: colors.white[500],
+      },
+    },
   };
 
   const rows = orders?.map((order, index) => {
-    return{
+    return {
       ...order,
-      orderId:index+1,
+      orderId: index + 1,
       customer: order.customer?.name,
-    }
+    };
   });
 
-  const initialState: GridInitialStateCommunity = { 
-    pagination:{
-      paginationModel:{
+  const initialState: GridInitialStateCommunity = {
+    pagination: {
+      paginationModel: {
         page: pageModel.page + 1,
         pageSize: pageModel.pageSize,
-      }
-    }
-  }
+      },
+    },
+  };
 
-  if(isLoading) return <Loader color={colors.blue[500]}/>
+  if (isLoading) return <Loader color={colors.blue[500]} />;
   return (
-    <Box >
+    <Box>
       <DataGrid
         columns={columns}
         rows={rows}
@@ -143,13 +152,13 @@ const CompletedInvoiceTable:React.FC<Props> = ({ orders: data,isLoading, pageMod
         sx={DataGridStyle}
         paginationMode="server"
         initialState={initialState}
-        pageSizeOptions={[10, 25, 50, 100 ]}
+        pageSizeOptions={[10, 25, 50, 100]}
         paginationModel={{ pageSize: pageModel.pageSize, page: pageModel.page }}
         onPaginationModelChange={handlePaginationChange}
-        rowCount={data?.pagination.totalCount || 0}  
-        loading={isLoading} 
+        rowCount={data?.pagination.totalCount || 0}
+        loading={isLoading}
       />
     </Box>
-  )
-}
-export default CompletedInvoiceTable
+  );
+};
+export default CompletedInvoiceTable;

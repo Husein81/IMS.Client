@@ -13,13 +13,13 @@ const CompletedInvoicePage = () => {
   const [pageModel, setPageModel] = useState<Pagination>({
     page: 0,
     pageSize: 10,
-    searchTerm: ''
+    searchTerm: "",
   });
 
   const { data, isLoading, refetch } = useGetCompletedOrdesQuery({
     page: pageModel.page + 1,
     pageSize: pageModel.pageSize,
-    searchTerm: pageModel.searchTerm || ''
+    searchTerm: pageModel.searchTerm || "",
   });
 
   const handleSearchTermChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -37,7 +37,7 @@ const CompletedInvoicePage = () => {
         pageModel={pageModel}
         handleSearchTermChange={handleSearchTermChange}
       />
-      <Box  width={'100%'}>
+      <Box width={"100%"}>
         <CompletedInvoiceTable
           orders={data!}
           pageModel={pageModel}

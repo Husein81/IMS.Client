@@ -13,13 +13,13 @@ const InvoicePage = () => {
   const [pageModel, setPageModel] = useState<Pagination>({
     page: 0,
     pageSize: 10,
-    searchTerm: ''
+    searchTerm: "",
   });
 
   const { data, isLoading, refetch } = useGetOrdersQuery({
     page: pageModel.page + 1,
     pageSize: pageModel.pageSize,
-    searchTerm: pageModel.searchTerm || ''
+    searchTerm: pageModel.searchTerm || "",
   });
 
   const handleSearchTermChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -31,8 +31,9 @@ const InvoicePage = () => {
       <InvoiceHeader
         colors={colors}
         pageModel={pageModel}
-        handleSearchTermChange={handleSearchTermChange}/>
-      <Box  width={'100%'}>
+        handleSearchTermChange={handleSearchTermChange}
+      />
+      <Box width={"100%"}>
         <InvoiceTable
           orders={data!}
           pageModel={pageModel}

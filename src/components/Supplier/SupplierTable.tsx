@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Box, IconButton } from "@mui/material"
-import { DataGrid, GridColDef } from "@mui/x-data-grid"
+import { Box, IconButton } from "@mui/material";
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import React from "react";
 import { Delete, Edit, Receipt } from "@mui/icons-material";
 import { ColorSet } from "../../Theme";
@@ -15,93 +15,107 @@ import SupplierForm from "./SupplierForm";
 import { useNavigate } from "react-router-dom";
 import DeletingForm from "../Other/DeletingForm";
 
-interface Props{
-    suppliers: SupplierPagination,
-    colors:ColorSet,
-    isLoading:boolean,
-    pageModel: Pagination,
-    setPageModel: React.Dispatch<React.SetStateAction<Pagination>>,
-    refetch: () => any
+interface Props {
+  suppliers: SupplierPagination;
+  colors: ColorSet;
+  isLoading: boolean;
+  pageModel: Pagination;
+  setPageModel: React.Dispatch<React.SetStateAction<Pagination>>;
+  refetch: () => any;
 }
-const SupplierTable: React.FC<Props> = ({colors, suppliers, pageModel, setPageModel, isLoading, refetch}) => {
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
-    const [deleteSupplier] = useDeleteSupplierMutation();
+const SupplierTable: React.FC<Props> = ({
+  colors,
+  suppliers,
+  pageModel,
+  setPageModel,
+  isLoading,
+  refetch,
+}) => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [deleteSupplier] = useDeleteSupplierMutation();
 
-    const handlePaginationChange = (modal: Pagination) => {
-      setPageModel(modal);
-    };
-    const deleteHandler = async (id:string) => {
-      dispatch(openModal(<DeletingForm 
-        deleteItem={() => deleteSupplier(id)}
-        refetch={refetch} />));
-    }
-    const handleEdit = (id: string) => {
-      dispatch(openModal(<SupplierForm refetch={refetch} id={id}/>));
-    }
+  const handlePaginationChange = (modal: Pagination) => {
+    setPageModel(modal);
+  };
+  const deleteHandler = async (id: string) => {
+    dispatch(
+      openModal(
+        <DeletingForm deleteItem={() => deleteSupplier(id)} refetch={refetch} />
+      )
+    );
+  };
+  const handleEdit = (id: string) => {
+    dispatch(openModal(<SupplierForm refetch={refetch} id={id} />));
+  };
 
-    const handleInvoic = (id: string) => {
-      navigate(`/SupplierInvoice/${id}`);
-    }
-    const columns: GridColDef[] = [
-      {field:'name', headerName:'Name', width: 200},
-      {field:'email', headerName:'Email', width: 200},
-      {field:'address', headerName:'Address', width: 200},
-      {field:'phone', headerName:'Phone', width: 200},
-      {field:'invoice', headerName:'See Invoice', width: 200,
-        renderCell: (params) => (
-          <Box display={'flex'} alignItems={'center'}>
-            <IconButton onClick={() => handleInvoic(params.row.id)}>
-              <Receipt/>
-            </IconButton>
-          </Box>
-        )
-      },
-      {field:'Action', headerName:'Action', width: 200
-        ,renderCell: (params) => (
-            <Box display={'flex'} alignItems={'center'}>
-              <IconButton onClick={() => handleEdit(params.row.id)}>
-                <Edit/>
-              </IconButton>
-              <IconButton onClick={() => deleteHandler(params.row.id)}>
-                <Delete/>
-              </IconButton>
-            </Box>
-        )
-      }
-    ]; 
-    const DataGridStyle = {
-      height: 580,
-      '& .MuiDataGrid-scrollbar':{
-        width:0
-      },
-      backgroundColor:colors.white[600],
-      textAlign : 'center',
-      '& .MuiSvgIcon-root':{
-        color:colors.gray[500]
-      },
-      '& .MuiDataGrid-overlay':{
-        backgroundColor:colors.white[500],
-      },
-      
-      '& .MuiDataGrid-row':{
-        color:'#242424',
-        '&:nth-of-type(even)':{
-          backgroundColor:colors.white[500] ,
-        }
-      }
-    }
-    const initialState: GridInitialStateCommunity = { 
-      pagination:{
-        paginationModel:{
-          page: pageModel.page + 1,
-          pageSize: pageModel.pageSize,
-        }
-      }
-    };
+  const handleInvoic = (id: string) => {
+    navigate(`/SupplierInvoice/${id}`);
+  };
+  const columns: GridColDef[] = [
+    { field: "name", headerName: "Name", width: 200 },
+    { field: "email", headerName: "Email", width: 200 },
+    { field: "address", headerName: "Address", width: 200 },
+    { field: "phone", headerName: "Phone", width: 200 },
+    {
+      field: "invoice",
+      headerName: "See Invoice",
+      width: 200,
+      renderCell: (params) => (
+        <Box display={"flex"} alignItems={"center"}>
+          <IconButton onClick={() => handleInvoic(params.row.id)}>
+            <Receipt />
+          </IconButton>
+        </Box>
+      ),
+    },
+    {
+      field: "Action",
+      headerName: "Action",
+      width: 200,
+      renderCell: (params) => (
+        <Box display={"flex"} alignItems={"center"}>
+          <IconButton onClick={() => handleEdit(params.row.id)}>
+            <Edit />
+          </IconButton>
+          <IconButton onClick={() => deleteHandler(params.row.id)}>
+            <Delete />
+          </IconButton>
+        </Box>
+      ),
+    },
+  ];
+  const DataGridStyle = {
+    height: 580,
+    "& .MuiDataGrid-scrollbar": {
+      width: 0,
+    },
+    backgroundColor: colors.white[600],
+    textAlign: "center",
+    "& .MuiSvgIcon-root": {
+      color: colors.gray[500],
+    },
+    "& .MuiDataGrid-overlay": {
+      backgroundColor: colors.white[500],
+    },
 
+    "& .MuiDataGrid-row": {
+      color: "#242424",
+      "&:nth-of-type(even)": {
+        backgroundColor: colors.white[500],
+      },
+    },
+  };
+  const initialState: GridInitialStateCommunity = {
+    pagination: {
+      paginationModel: {
+        page: pageModel.page + 1,
+        pageSize: pageModel.pageSize,
+      },
+    },
+  };
 
-    if(isLoading) return <Loader color={colors.blue[500]}/>
+  if (isLoading) return <Loader color={colors.blue[500]} />;
 
   return (
     <Box>
@@ -114,10 +128,10 @@ const SupplierTable: React.FC<Props> = ({colors, suppliers, pageModel, setPageMo
         pageSizeOptions={[10, 25, 50, 100]}
         paginationModel={{ pageSize: pageModel.pageSize, page: pageModel.page }}
         onPaginationModelChange={(model) => handlePaginationChange(model)}
-        rowCount={suppliers.pagination.totalCount }  
+        rowCount={suppliers.pagination.totalCount}
         loading={isLoading}
       />
     </Box>
-  )
-}
-export default SupplierTable
+  );
+};
+export default SupplierTable;

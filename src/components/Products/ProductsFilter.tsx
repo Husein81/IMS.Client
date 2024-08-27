@@ -3,7 +3,7 @@ import { Box, Button } from "@mui/material";
 import React, { FC } from "react";
 import Slider from "react-slick";
 
-import "slick-carousel/slick/slick.css"; 
+import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { Category } from "../../app/models/Category";
 
@@ -13,8 +13,11 @@ interface Props {
   selectCategoryHandler: (category: Category) => void;
 }
 
-const ProductsFilter: FC<Props> = ({ categories, setCategory, selectCategoryHandler }) => {
-
+const ProductsFilter: FC<Props> = ({
+  categories,
+  setCategory,
+  selectCategoryHandler,
+}) => {
   const settings = {
     dots: false,
     infinite: false,
@@ -25,7 +28,7 @@ const ProductsFilter: FC<Props> = ({ categories, setCategory, selectCategoryHand
   };
 
   const content = categories.map((category) => (
-    <Box key={category.id} px={'2px'}>
+    <Box key={category.id} px={"2px"}>
       <Button
         fullWidth
         variant="contained"
@@ -39,13 +42,15 @@ const ProductsFilter: FC<Props> = ({ categories, setCategory, selectCategoryHand
 
   return (
     <Box display="flex" flexDirection="column" gap={1}>
-      <Button variant="contained" color="primary" onClick={() => setCategory(null)}>
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={() => setCategory(null)}
+      >
         All
       </Button>
-      <Box> 
-        <Slider {...settings}>
-            {content}
-        </Slider>
+      <Box>
+        <Slider {...settings}>{content}</Slider>
       </Box>
     </Box>
   );
