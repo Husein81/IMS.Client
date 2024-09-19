@@ -4,14 +4,14 @@ import { useState } from "react";
 import { Pagination } from "../../../app/models/Pagination/pagination";
 
 import { token } from "../../../Theme";
-import { Box, Container, Typography, useTheme } from "@mui/material";
+import { Box, Container, Typography } from "@mui/material";
 
 import SupplierInvoiceTable from "./SupplierInvoiceTable";
 
 const SupplierInvoicePage = () => {
   const { id } = useParams<{ id: string }>();
-  const theme = useTheme();
-  const colors = token(theme.palette.mode);
+
+  const colors = token();
   const [pageModel, setPageModel] = useState<Pagination>({
     page: 0,
     pageSize: 10,

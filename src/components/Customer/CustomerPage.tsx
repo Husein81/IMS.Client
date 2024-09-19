@@ -5,7 +5,6 @@ import {
   IconButton,
   InputBase,
   Typography,
-  useTheme,
 } from "@mui/material";
 import { token } from "../../Theme";
 import CustomerTable from "./CustomerTable";
@@ -14,8 +13,7 @@ import { useState } from "react";
 import { Pagination } from "../../app/models/Pagination/pagination";
 
 const CustomerPage = () => {
-  const theme = useTheme();
-  const colors = token(theme.palette.mode);
+  const colors = token();
   const [pageModel, setPageModel] = useState<Pagination>({
     page: 0,
     pageSize: 10,

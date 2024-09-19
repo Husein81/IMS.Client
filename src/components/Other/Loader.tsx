@@ -9,9 +9,9 @@ const Loader: React.FC<Props> = ({ color = "#0080ff" }) => {
     <Box
       sx={{
         display: "flex",
-        justifyContent: "center",
+        flex: 1,
         alignItems: "center",
-        height: "50vh",
+        justifyContent: "center",
       }}
     >
       <CircularProgress sx={{ color: `${color}` }} />

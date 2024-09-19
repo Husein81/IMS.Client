@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Box, IconButton, useTheme } from "@mui/material";
+import { Box, IconButton } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { token } from "../../Theme";
 import { Pagination } from "../../app/models/Pagination/pagination";
@@ -39,8 +39,7 @@ const InvoiceTable: React.FC<Props> = ({
   setPageModel,
   refetch,
 }) => {
-  const theme = useTheme();
-  const colors = token(theme.palette.mode);
+  const colors = token();
   const dispatch = useDispatch();
 
   const [deleteOrder, { isLoading: isLoadingDelete }] =

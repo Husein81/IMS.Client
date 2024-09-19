@@ -1,4 +1,4 @@
-import { Box, Container, useTheme } from "@mui/material";
+import { Box, Container } from "@mui/material";
 import CompletedInvoiceTable from "./CompletedInvoiceTable";
 import { useGetCompletedOrdesQuery } from "../../../app/redux/Slice/orderApi";
 import { useEffect, useState } from "react";
@@ -8,8 +8,7 @@ import { token } from "../../../Theme";
 import CompletedInvoiceHeader from "./CompletedInvoiceHeader";
 
 const CompletedInvoicePage = () => {
-  const theme = useTheme();
-  const colors = token(theme.palette.mode);
+  const colors = token();
   const [pageModel, setPageModel] = useState<Pagination>({
     page: 0,
     pageSize: 10,

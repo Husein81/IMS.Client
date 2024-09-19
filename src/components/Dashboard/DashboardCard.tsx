@@ -1,5 +1,5 @@
 import { Box, Card, CardContent, Typography } from "@mui/material";
-import { DashboardCardProps } from "./DashboardPage";
+import { DashboardCardProps } from "../../app/layout/DashboardPage";
 interface Props {
   content: DashboardCardProps;
 }

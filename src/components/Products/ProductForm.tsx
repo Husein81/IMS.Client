@@ -12,7 +12,6 @@ import {
   Select,
   TextField,
   Typography,
-  useTheme,
 } from "@mui/material";
 import React, { useEffect, useRef, useState } from "react";
 import { useGetCategoriesQuery } from "../../app/redux/Slice/categoryApi";
@@ -43,8 +42,8 @@ interface Props {
 }
 const ProductForm: React.FC<Props> = ({ id, refetch: refetchAll }) => {
   const dispatch = useDispatch();
-  const theme = useTheme();
-  const colors = token(theme.palette.mode);
+
+  const colors = token();
 
   const [images, setImages] = useState<FileList | null>(null);
   const [loadingUpload, setLoadingUpload] = useState(false);
@@ -92,7 +91,7 @@ const ProductForm: React.FC<Props> = ({ id, refetch: refetchAll }) => {
       category &&
         setFormData({
           ...product,
-          categoryId: category,
+          categoryId: category.id,
         });
     }
   }, [product, supplier, category]);
@@ -310,12 +309,7 @@ const ProductForm: React.FC<Props> = ({ id, refetch: refetchAll }) => {
                 });
               }}
               renderInput={(params) => (
-                <TextField
-                  {...params}
-                  label="Category"
-                  margin="dense"
-                  required
-                />
+                <TextField {...params} label="Category" margin="dense" />
               )}
             />
 
@@ -331,12 +325,7 @@ const ProductForm: React.FC<Props> = ({ id, refetch: refetchAll }) => {
                 });
               }}
               renderInput={(params) => (
-                <TextField
-                  {...params}
-                  label="Supplier"
-                  margin="dense"
-                  required
-                />
+                <TextField {...params} label="Supplier" margin="dense" />
               )}
             />
           </Box>

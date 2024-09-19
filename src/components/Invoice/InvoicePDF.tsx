@@ -10,7 +10,7 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  useTheme,
+
 } from "@mui/material";
 import { token } from "../../Theme";
 
@@ -19,8 +19,8 @@ interface InvoiceProps {
 }
 
 const InvoicePDF: React.FC<InvoiceProps> = ({ invoice }) => {
-  const theme = useTheme();
-  const colors = token(theme.palette.mode);
+
+  const colors = token();
   const timeHour: number | string = invoice?.createdAt
     ? Number(invoice.createdAt.split("T")[1].split(".")[0].split(":")[0])
     : 0;

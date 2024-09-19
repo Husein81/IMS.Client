@@ -1,11 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Box, Button } from "@mui/material";
 import React, { FC } from "react";
-import Slider from "react-slick";
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { Category } from "../../app/models/Category";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/swiper-bundle.css"; // Import Swiper styles
 
 interface Props {
   categories: Category[];
@@ -18,26 +19,28 @@ const ProductsFilter: FC<Props> = ({
   setCategory,
   selectCategoryHandler,
 }) => {
-  const settings = {
-    dots: false,
-    infinite: false,
-    speed: 1000,
-    slidesToShow: 3,
-    arrows: false,
-    slidesToScroll: 1,
-  };
-
-  const content = categories.map((category) => (
-    <Box key={category.id} px={"2px"}>
-      <Button
-        fullWidth
-        variant="contained"
-        color="primary"
+  const list = categories.map((category) => (
+    <SwiperSlide key={category.id}>
+      <Box
+        component={"img"}
+        mx={1}
+        src={category.imageUrls![0]}
+        alt={category.name}
+        sx={{
+          borderRadius: "50%",
+          cursor: "pointer",
+          height: 50,
+          width: 50,
+          "&:hover": {
+            transform: "scale(.9)",
+            transition: "all 0.3s",
+          },
+        }}
+        textAlign={"center"}
+        bgcolor={"primary.main"}
         onClick={() => selectCategoryHandler(category)}
-      >
-        {category.name}
-      </Button>
-    </Box>
+      />
+    </SwiperSlide>
   ));
 
   return (
@@ -49,8 +52,11 @@ const ProductsFilter: FC<Props> = ({
       >
         All
       </Button>
-      <Box>
-        <Slider {...settings}>{content}</Slider>
+      {/* Wrap all SwiperSlide components inside one Swiper */}
+      <Box width="450px" display={"flex"} justifyContent={"flex-end"}>
+        <Swiper slidesPerView={4} spaceBetween={10}>
+          {list}
+        </Swiper>
       </Box>
     </Box>
   );

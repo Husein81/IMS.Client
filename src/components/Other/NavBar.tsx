@@ -1,4 +1,4 @@
-import { AppBar, Box, Toolbar, Typography, useTheme } from "@mui/material";
+import { AppBar, Box, Toolbar, Typography } from "@mui/material";
 import { RootState } from "../../app/redux/Store";
 import { useSelector } from "react-redux";
 import { token } from "../../Theme";
@@ -8,8 +8,7 @@ type Props = {
   title: string;
 };
 const NavBar: FC<Props> = ({ title = "" }) => {
-  const theme = useTheme();
-  const colors = token(theme.palette.mode);
+  const colors = token();
   const { userInfo } = useSelector((state: RootState) => state.auth);
 
   const formatDateTime = (date: Date): string => {

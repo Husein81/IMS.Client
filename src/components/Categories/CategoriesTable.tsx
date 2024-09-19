@@ -76,8 +76,26 @@ const CategoriesTable: React.FC<Props> = ({
     },
   };
   const columns: GridColDef[] = [
-    { field: "name", headerName: "Name", width: 400 },
-    { field: "description", headerName: "Description", width: 400 },
+    { field: "name", headerName: "Name", width: 200 },
+    {
+      field: "imageUrls",
+      headerName: "Image",
+      width: 250,
+      renderCell: (params) => (
+        <Box
+          component={"img"}
+          src={params.row.imageUrls[0]}
+          alt={params.row.name}
+          width={50}
+          height={50}
+        />
+      ),
+    },
+    {
+      field: "description",
+      headerName: "Description",
+      width: 300,
+    },
     {
       field: "actions",
       headerName: "Actions",

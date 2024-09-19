@@ -16,6 +16,13 @@ import {
 } from "../../app/redux/Slice/categoryApi";
 import { closeModal } from "../../app/redux/Slice/modalSlice";
 import { useDispatch } from "react-redux";
+import {
+  handleImageSubmit,
+  handleRemoveImage,
+} from "../../app/utils/generateImage";
+import ImageInput from "../Other/ImageInput";
+import ImageOutput from "../Other/ImageOutput";
+import { token } from "../../Theme";
 
 interface Props {
   id?: string;
@@ -26,12 +33,14 @@ interface Props {
 const CategoriesForm: React.FC<Props> = ({ id, refetch: refetchAll }) => {
   const dispatch = useDispatch();
 
+  const colors = token();
   const [formData, setFormData] = useState<Category>({
     name: "",
     description: "",
-    imageUrl: "",
+    imageUrls: [],
   });
-
+  const [uploadLoading, setUploadLoading] = useState(false);
+  const [imageFile, setImageFile] = useState<FileList | null>(null);
   const { data: category, refetch } = useGetCategoryQuery(id!, { skip: !id });
 
   const [createCategory, { isLoading: isLoadingCreate }] =
@@ -53,6 +62,12 @@ const CategoriesForm: React.FC<Props> = ({ id, refetch: refetchAll }) => {
       ...formData,
       [name]: value,
     });
+  };
+  const onSubmitImage = async (file: FileList) => {
+    handleImageSubmit(file, formData, setUploadLoading, setFormData);
+  };
+  const onRemoveImage = (url: string, i: number) => {
+    handleRemoveImage(url, i, formData, setFormData);
   };
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -96,6 +111,16 @@ const CategoriesForm: React.FC<Props> = ({ id, refetch: refetchAll }) => {
             value={formData.description}
             onChange={handleChange}
             margin="dense"
+          />
+          <ImageInput
+            setImages={setImageFile}
+            handleImageSubmit={() => onSubmitImage(imageFile!)}
+            loadingUpload={uploadLoading}
+          />
+          <ImageOutput
+            colors={colors}
+            handleRemoveImage={onRemoveImage}
+            formData={formData}
           />
           <Button
             type="submit"

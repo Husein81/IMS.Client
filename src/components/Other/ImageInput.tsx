@@ -1,6 +1,7 @@
 import { Upload } from "@mui/icons-material";
 import { Box, Button, IconButton } from "@mui/material";
 import { FC } from "react";
+import Loader from "./Loader";
 
 type Props = {
   setImages: (images: FileList | null) => void;
@@ -39,9 +40,10 @@ const ImageInput: FC<Props> = ({
         variant="contained"
         color="secondary"
         sx={{ color: "white" }}
+        disabled={loadingUpload}
         onClick={handleImageSubmit}
       >
-        {loadingUpload ? "Uploading..." : "Upload"}
+        {loadingUpload ? <Loader color="#fcfcfc" style={{}} /> : "Upload"}
       </Button>
     </Box>
   );

@@ -4,8 +4,8 @@ import {
   FormControl,
   FormGroup,
   FormLabel,
-  IconButton,
-  InputAdornment,
+  // IconButton,
+  // InputAdornment,
   TextField,
   Typography,
 } from "@mui/material";
@@ -17,7 +17,7 @@ import { closeModal, openModal } from "../../app/redux/Slice/modalSlice";
 import { useDispatch } from "react-redux";
 import { setCredentials } from "../../app/redux/Slice/authSlice";
 import RegisterForm from "./RegisterForm";
-import { Visibility, VisibilityOff } from "@mui/icons-material";
+// import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 const LoginForm = () => {
   const navigate = useNavigate();
@@ -28,15 +28,15 @@ const LoginForm = () => {
     username: "",
     password: "",
   });
-  const [showPassword, setShowPassword] = useState(false);
+  // const [showPassword, setShowPassword] = useState(false);
 
-  const handleClickShowPassword = () => {
-    setShowPassword(!showPassword);
-  };
+  // const handleClickShowPassword = () => {
+  //   setShowPassword(!showPassword);
+  // };
 
-  const handleMouseDownPassword = (event: React.FormEvent) => {
-    event.preventDefault();
-  };
+  // const handleMouseDownPassword = (event: React.FormEvent) => {
+  //   event.preventDefault();
+  // };
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
@@ -83,7 +83,7 @@ const LoginForm = () => {
             onChange={handleChange}
           />
           <TextField
-            type={showPassword ? "text" : "password"}
+            type={"password"}
             label="Password"
             required
             variant="outlined"
@@ -95,19 +95,6 @@ const LoginForm = () => {
             value={user.password}
             name="password"
             onChange={handleChange}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label="toggle password visibility"
-                    onClick={handleClickShowPassword}
-                    onMouseDown={handleMouseDownPassword}
-                  >
-                    {showPassword ? <Visibility /> : <VisibilityOff />}
-                  </IconButton>
-                </InputAdornment>
-              ),
-            }}
           />
           <Button
             type="submit"

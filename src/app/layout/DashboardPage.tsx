@@ -6,20 +6,20 @@ import {
   MoneyOff,
   TrendingUp,
 } from "@mui/icons-material";
-import RevenueProfitCost from "./RevenueProfitCost";
-import WeeklyRevenueProfitCost from "./DailyRevenueProfitCostForWeeks";
-import DashboardList from "./DashboardList";
-import TopSellingProducts from "./TopSellingProducts";
-import LowStockItems from "./LowStockItems";
-import Loader from "../Other/Loader";
-import NavBar from "../Other/NavBar";
+import RevenueProfitCost from "../../components/Dashboard/RevenueProfitCost";
+import WeeklyRevenueProfitCost from "../../components/Dashboard/DailyRevenueProfitCostForWeeks";
+import DashboardList from "../../components/Dashboard/DashboardList";
+import TopSellingProducts from "../../components/Dashboard/TopSellingProducts";
+import LowStockItems from "../../components/Dashboard/LowStockItems";
+import Loader from "../../components/Other/Loader";
+import NavBar from "../../components/Other/NavBar";
 import {
   useGetDailyRevenueProfitCostForWeeksQuery,
   useGetLowStockItemsQuery,
   useGetRevenueProfitCostQuery,
   useGetTopSellingProductsQuery,
-} from "../../app/redux/Slice/dashboardApi";
-import { useGetCompletedOrdesQuery } from "../../app/redux/Slice/orderApi";
+} from "../redux/Slice/dashboardApi";
+import { useGetCompletedOrdesQuery } from "../redux/Slice/orderApi";
 
 export interface DashboardCardProps {
   title: string;
@@ -44,6 +44,9 @@ const DashboardPage: React.FC = () => {
     isLoading: isLoadingDaily,
     refetch: refetchDaily,
   } = useGetDailyRevenueProfitCostForWeeksQuery({});
+
+  const dRPCF = dailyRevenueProfitCostForWeeks || [];
+  const rPC = revenueProfitCost || [];
 
   const { data: lowStockItems, refetch: refetchLowStock } =
     useGetLowStockItemsQuery({});
@@ -145,19 +148,15 @@ const DashboardPage: React.FC = () => {
           </Typography>
         </Box>
         <Box height={400}>
-          {viewType === "monthly" ? (
+          {viewType === "monthly" && rPC && dRPCF ? (
             <RevenueProfitCost
               isLoading={isLoadingMonthly}
-              data={revenueProfitCost || [{ id: "", data: [{ x: "", y: 0 }] }]}
+              data={revenueProfitCost}
             />
           ) : (
             <WeeklyRevenueProfitCost
               isLoading={isLoadingDaily}
-              data={
-                dailyRevenueProfitCostForWeeks || [
-                  { id: "", data: [{ x: "", y: 0 }] },
-                ]
-              }
+              data={dailyRevenueProfitCostForWeeks}
             />
           )}
         </Box>

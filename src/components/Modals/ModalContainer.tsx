@@ -1,11 +1,10 @@
-import { Box, Modal, useTheme } from "@mui/material";
+import { Box, Modal } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../app/redux/Store";
 import { closeModal } from "../../app/redux/Slice/modalSlice";
 import { token } from "../../Theme";
 const ModalContainer = () => {
-  const theme = useTheme();
-  const colors = token(theme.palette.mode);
+  const colors = token();
   const dispatch = useDispatch();
   const { open, body } = useSelector((state: RootState) => state.modal);
 
@@ -28,7 +27,7 @@ const ModalContainer = () => {
         maxWidth={450}
         bgcolor={colors.white[500]}
         sx={{
-          borderRadius: 2,
+          borderRadius: 1,
           padding: 2,
           boxShadow: 2,
         }}

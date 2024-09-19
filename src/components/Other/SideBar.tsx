@@ -1,11 +1,4 @@
-import {
-  Box,
-  Drawer,
-  List,
-  ListItem,
-  Typography,
-  useTheme,
-} from "@mui/material";
+import { Box, Drawer, List, ListItem, Typography } from "@mui/material";
 import { token } from "../../Theme";
 import {
   AttachMoney,
@@ -31,8 +24,8 @@ interface Items {
 }
 const SideBar = () => {
   const { userInfo } = useSelector((state: RootState) => state.auth);
-  const theme = useTheme();
-  const colors = token(theme.palette.mode);
+
+  const colors = token();
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -92,12 +85,12 @@ const SideBar = () => {
           gap: 1,
           display: "flex",
           flexDirection: "column",
-          color: colors.black[800],
+          color: colors.white[500],
         }}
         onClick={item.onClick}
       >
         {item.icon}
-        <Typography variant="body1" color={colors.black[800]}>
+        <Typography variant="body1" color={colors.white[500]}>
           {item.name}
         </Typography>
       </ListItem>
@@ -116,7 +109,7 @@ const SideBar = () => {
         <Typography
           variant="h4"
           sx={{ cursor: "pointer" }}
-          color={colors.gray[900]}
+          color={colors.white[500]}
           onClick={() => navigate("/")}
         >
           Inventory System

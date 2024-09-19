@@ -1,24 +1,23 @@
-import { Box, Container, Typography, useTheme } from "@mui/material";
+import { Box, Container, Typography } from "@mui/material";
 import { useCreateOrderMutation } from "../../app/redux/Slice/orderApi";
 import { RootState } from "../../app/redux/Store";
 import { useDispatch, useSelector } from "react-redux";
 import { useGetProductsQuery } from "../../app/redux/Slice/productApi";
 import { token } from "../../Theme";
-import OrderForm from "./OrderForm";
+import OrderForm from "./../../components/Order/OrderForm";
 import { useGetCustomersQuery } from "../../app/redux/Slice/customerApi";
 import { useState } from "react";
 import { Customer } from "../../app/models/Customer";
 import { useNavigate } from "react-router-dom";
 import { clearCart } from "../../app/redux/Slice/OrderSlice";
 import { openModal } from "../../app/redux/Slice/modalSlice";
-import CustomerForm from "../Customer/CustomerForm";
+import CustomerForm from "./../../components/Customer/CustomerForm";
 import { Order } from "../../app/models/Order";
-import CustomerInfo from "./CustomerInfo";
-import OrderSummary from "./OrderSummary";
+import CustomerInfo from "./../../components/Order/CustomerInfo";
+import OrderSummary from "./../../components/Order/OrderSummary";
 
 const OrderPage = () => {
-  const theme = useTheme();
-  const colors = token(theme.palette.mode);
+  const colors = token();
   const navigate = useNavigate();
   const dispatch = useDispatch();
 

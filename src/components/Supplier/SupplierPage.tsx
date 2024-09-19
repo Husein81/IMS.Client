@@ -1,4 +1,4 @@
-import { Container, useTheme } from "@mui/material";
+import { Container } from "@mui/material";
 import { token } from "../../Theme";
 import { useGetSuppliersQuery } from "../../app/redux/Slice/supplierApi";
 import SupplierTable from "./SupplierTable";
@@ -10,8 +10,7 @@ import SupplierForm from "./SupplierForm";
 import Header from "../Other/Header";
 
 const SupplierPage = () => {
-  const theme = useTheme();
-  const colors = token(theme.palette.mode);
+  const colors = token();
   const dispatch = useDispatch();
 
   const [pageModel, setPageModel] = useState<Pagination>({

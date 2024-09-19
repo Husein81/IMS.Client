@@ -1,17 +1,18 @@
-import { Container, useTheme } from "@mui/material";
-import CategoriesTable from "./CategoriesTable";
+import { Container } from "@mui/material";
+import CategoriesTable from "./../../components/Categories/CategoriesTable";
 import { openModal } from "../../app/redux/Slice/modalSlice";
 import { useDispatch } from "react-redux";
-import CategoriesForm from "./CategoriesForm";
+import CategoriesForm from "./../../components/Categories/CategoriesForm";
 import { token } from "../../Theme";
 import { useGetCategoriesQuery } from "../../app/redux/Slice/categoryApi";
-import Header from "../Other/Header";
+import Header from "./../../components/Other/Header";
+import { useState } from "react";
 
 const CategoriesPage = () => {
-  const theme = useTheme();
-  const colors = token(theme.palette.mode);
+  const colors = token();
 
   const dispatch = useDispatch();
+  const [searchTerm, setSearchTerm] = useState("");
 
   const {
     refetch,
@@ -22,6 +23,9 @@ const CategoriesPage = () => {
     pageSize: 1000,
   });
 
+  const searchTermHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(e.target.value);
+  };
   const handleAddCategory = async () => {
     dispatch(openModal(<CategoriesForm refetch={refetch} />));
   };
@@ -31,8 +35,8 @@ const CategoriesPage = () => {
         title={"Categories"}
         colors={colors}
         onAddHandler={handleAddCategory}
-        pageModel={{ page: 1, pageSize: 1000, searchTerm: "" }}
-        searchTermHandler={() => {}}
+        pageModel={{ page: 1, pageSize: 1000, searchTerm }}
+        searchTermHandler={searchTermHandler}
       />
       <CategoriesTable
         refetch={refetch}
