@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Box, IconButton } from "@mui/material";
+import { Box, Button, IconButton } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { token } from "../../Theme";
 import { Pagination } from "../../app/models/Pagination/pagination";
@@ -11,8 +11,8 @@ import {
 import Loader from "../Other/Loader";
 import { GridInitialStateCommunity } from "@mui/x-data-grid/models/gridStateCommunity";
 import {
-  CheckCircle,
-  CreditCardOff,
+  // CheckCircle,
+  // CreditCardOff,
   Delete,
   Edit,
   PictureAsPdf,
@@ -101,6 +101,7 @@ const InvoiceTable: React.FC<Props> = ({
           display="flex"
           gap={2}
           alignItems={"center"}
+          fontSize={11}
           className={
             params.row.orderStatus === "completed"
               ? "text-green-700"
@@ -172,8 +173,8 @@ const InvoiceTable: React.FC<Props> = ({
       width: 200,
       renderCell: (params) => (
         <Box gap={2} display="flex" py={1}>
-          <IconButton
-            color="primary"
+          <Button
+            color="success"
             onClick={() => handleOrderStatus(params.row.id, "completed")}
             disabled={
               params.row.orderStatus === "completed" ||
@@ -181,10 +182,10 @@ const InvoiceTable: React.FC<Props> = ({
                 params.row.payment === 0)
             }
           >
-            <CheckCircle />
-          </IconButton>
-          <IconButton
-            color="primary"
+            completed
+          </Button>
+          <Button
+            color="error"
             onClick={() => handleOrderStatus(params.row.id, "unpaid")}
             disabled={
               params.row.orderStatus === "unpaid" ||
@@ -192,8 +193,8 @@ const InvoiceTable: React.FC<Props> = ({
                 params.row.payment === 0)
             }
           >
-            <CreditCardOff />
-          </IconButton>
+            unpaid
+          </Button>
         </Box>
       ),
     },

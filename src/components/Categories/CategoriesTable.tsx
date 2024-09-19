@@ -101,7 +101,7 @@ const CategoriesTable: React.FC<Props> = ({
       headerName: "Actions",
       width: 150,
       renderCell: (params) => (
-        <Box sx={{ display: "flex", gap: 1 }}>
+        <Box>
           <IconButton color="primary" onClick={() => handleEdit(params.row.id)}>
             <Edit />
           </IconButton>

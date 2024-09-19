@@ -62,11 +62,9 @@ const SupplierTable: React.FC<Props> = ({
       headerName: "See Invoice",
       width: 200,
       renderCell: (params) => (
-        <Box display={"flex"} alignItems={"center"}>
-          <IconButton onClick={() => handleInvoic(params.row.id)}>
-            <Receipt />
-          </IconButton>
-        </Box>
+        <IconButton onClick={() => handleInvoic(params.row.id)}>
+          <Receipt />
+        </IconButton>
       ),
     },
     {
@@ -74,7 +72,7 @@ const SupplierTable: React.FC<Props> = ({
       headerName: "Action",
       width: 200,
       renderCell: (params) => (
-        <Box display={"flex"} alignItems={"center"}>
+        <Box>
           <IconButton onClick={() => handleEdit(params.row.id)}>
             <Edit />
           </IconButton>
