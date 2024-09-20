@@ -4,10 +4,18 @@ import { User } from "../../models/User";
 interface AuthState {
   userInfo: User | null;
 }
+
+const loadUserAction = async () => {
+  try {
+    const response = await localStorage.getItem("userInfo");
+    return response ? JSON.parse(response) : null;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+};
 const initialState: AuthState = {
-  userInfo: localStorage.getItem("userInfo")
-    ? JSON.parse(localStorage.getItem("userInfo") as string)
-    : null,
+  userInfo: null,
 };
 
 const authSlice = createSlice({
@@ -18,12 +26,22 @@ const authSlice = createSlice({
       state.userInfo = null;
       localStorage.removeItem("userInfo");
     },
-    setCredentials: (state, action: PayloadAction<User>) => {
+    loginAction: (state, action: PayloadAction<User>) => {
       state.userInfo = action.payload;
       localStorage.setItem("userInfo", JSON.stringify(action.payload));
+    },
+    setCredentials: (state, action: PayloadAction<User>) => {
+      state.userInfo = action.payload;
     },
   },
 });
 
-export const { setCredentials, logout } = authSlice.actions;
+export const { setCredentials, logout, loginAction } = authSlice.actions;
 export default authSlice.reducer;
+
+export const loadUser = () => async (dispatch) => {
+  const user = await loadUserAction();
+  if (user) {
+    dispatch(setCredentials(user));
+  }
+};

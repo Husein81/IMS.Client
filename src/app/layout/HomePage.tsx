@@ -1,4 +1,4 @@
-import { Box, Button, Typography, useTheme } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import { token } from "../../Theme";
 import { useDispatch, useSelector } from "react-redux";
 import { openModal } from "../redux/Slice/modalSlice";
@@ -8,15 +8,17 @@ import { Link } from "react-router-dom";
 import { logout } from "../redux/Slice/authSlice";
 
 const HomePage = () => {
-  const theme = useTheme();
-  const colors = token(theme.palette.mode);
+  const colors = token();
   const dispatch = useDispatch();
   const { userInfo } = useSelector((state: RootState) => state.auth);
-  console.log(userInfo);
+
   const handleOpenModal = (body: JSX.Element) => {
     dispatch(openModal(body));
   };
 
+  const onLogout = () => {
+    dispatch(logout());
+  };
   return (
     <Box
       sx={{
@@ -41,7 +43,7 @@ const HomePage = () => {
       <Typography variant="h1" align="center" color="white">
         Welcome To The Inventory System
       </Typography>
-      {userInfo === null ? (
+      {!userInfo ? (
         <Button
           variant="contained"
           color="secondary"
@@ -54,11 +56,7 @@ const HomePage = () => {
           <Typography variant="h3" color="white">
             <Link to="/dashboard">Go To Dashboard</Link>
           </Typography>
-          <Button
-            variant={"contained"}
-            color="secondary"
-            onClick={() => dispatch(logout())}
-          >
+          <Button variant={"contained"} color="secondary" onClick={onLogout}>
             Logout
           </Button>
         </Box>

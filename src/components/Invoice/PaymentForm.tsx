@@ -55,8 +55,10 @@ const PaymentForm: React.FC<Props> = ({ id, refetch }) => {
             label="Payment"
             name="payment"
             margin="dense"
+            type="number"
             value={Payment}
             inputProps={{
+              step: 0.01,
               min: 0,
               max: data?.payment ? data.payment + 1 : undefined,
             }}

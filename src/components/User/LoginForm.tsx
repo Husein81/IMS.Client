@@ -15,7 +15,7 @@ import { useLoginMutation } from "../../app/redux/Slice/userApi";
 import { useNavigate } from "react-router-dom";
 import { closeModal, openModal } from "../../app/redux/Slice/modalSlice";
 import { useDispatch } from "react-redux";
-import { setCredentials } from "../../app/redux/Slice/authSlice";
+import { loginAction } from "../../app/redux/Slice/authSlice";
 import RegisterForm from "./RegisterForm";
 // import { Visibility, VisibilityOff } from "@mui/icons-material";
 
@@ -55,7 +55,7 @@ const LoginForm = () => {
     e.preventDefault();
     try {
       const response = await login(user).unwrap();
-      dispatch(setCredentials(response));
+      dispatch(loginAction(response));
       handleClose();
       navigate("/dashboard");
     } catch (error) {

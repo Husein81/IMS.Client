@@ -30,8 +30,11 @@ const SideBar = () => {
   const dispatch = useDispatch();
 
   const handleLogout = () => {
-    dispatch(logout());
-    navigate("/");
+    try {
+      dispatch(logout());
+    } catch (error) {
+      console.error(error);
+    }
   };
   const handleLogin = () => {
     dispatch(openModal(<LoginForm />));

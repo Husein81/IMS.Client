@@ -76,15 +76,17 @@ const ProductsPage = () => {
               selectCategoryHandler={selectCategoryHabdler}
             />
           </Box>
-          <Box height={"70vh"}>
+          <Box>
             <ProductList
               products={
                 category ? productsByCategory?.items || [] : data?.items || []
               }
               isLoading={category ? isLoadingProductByCategory : isLoading}
+              refetch={refetch}
             />
           </Box>
-          <Box mt={-3}>
+
+          <Box my={3}>
             <Pagination
               count={data?.pagination.totalPages || 0}
               page={pageModel.page + 1}

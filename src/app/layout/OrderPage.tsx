@@ -1,8 +1,12 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Box, Container, Typography } from "@mui/material";
 import { useCreateOrderMutation } from "../../app/redux/Slice/orderApi";
 import { RootState } from "../../app/redux/Store";
 import { useDispatch, useSelector } from "react-redux";
-import { useGetProductsQuery } from "../../app/redux/Slice/productApi";
+import {
+  useGetProductsQuery,
+  useUpdateProductMutation,
+} from "../../app/redux/Slice/productApi";
 import { token } from "../../Theme";
 import OrderForm from "./../../components/Order/OrderForm";
 import { useGetCustomersQuery } from "../../app/redux/Slice/customerApi";
@@ -36,6 +40,7 @@ const OrderPage = () => {
     Customer | undefined
   >(undefined);
   const { data } = useGetProductsQuery({ page: 1, pageSize: 1000 });
+  const [updateProduct] = useUpdateProductMutation();
   const handleOpenCustomerModal = () => {
     dispatch(openModal(<CustomerForm refetch={refetch} />));
   };
@@ -56,6 +61,7 @@ const OrderPage = () => {
                 quantity: item.product.quantity - item.qty,
               }
             : undefined;
+          dispatch(updateProduct(updatedProduct).unwrap() as any);
           return {
             ...item,
             product: updatedProduct,
