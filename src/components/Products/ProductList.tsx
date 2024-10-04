@@ -15,6 +15,10 @@ const ProductList: React.FC<Props> = ({ products, isLoading, refetch }) => {
   ));
 
   if (isLoading) return <Loader />;
-  return <Box className="grid grid-cols-3 gap-2 pt-2">{content}</Box>;
+  return (
+    <Box className="grid sm:grid-cols-2 md:grid-cols-3 gap-2 pt-2">
+      {content}
+    </Box>
+  );
 };
 export default ProductList;

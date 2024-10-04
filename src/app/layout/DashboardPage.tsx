@@ -161,7 +161,7 @@ const DashboardPage: React.FC = () => {
           )}
         </Box>
       </Paper>
-      <Box py={2} className="grid grid-cols-2 gap-2">
+      <Box py={2} className="grid sm:grid-cols-2 gap-2">
         <TopSellingProducts data={topSellingProducts || []} />
         <LowStockItems data={lowStockItems || []} />
       </Box>

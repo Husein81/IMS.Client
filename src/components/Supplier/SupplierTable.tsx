@@ -112,7 +112,7 @@ const SupplierTable: React.FC<Props> = ({
       },
     },
   };
-
+  console.log(suppliers);
   if (isLoading) return <Loader color={colors.blue[500]} />;
 
   return (

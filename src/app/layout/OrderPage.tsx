@@ -47,28 +47,30 @@ const OrderPage = () => {
 
   const handleCheckout = async () => {
     try {
-      const updatedOrderItems = orderItems.map((item) => {
-        if (
-          item.product &&
-          item.product.quantity &&
-          item.qty > item.product.quantity
-        ) {
-          throw new Error("Quantity is not available");
-        } else {
-          const updatedProduct = item.product
-            ? {
-                ...item.product,
-                quantity: item.product.quantity - item.qty,
-              }
-            : undefined;
-          dispatch(updateProduct(updatedProduct).unwrap() as any);
-          return {
-            ...item,
-            product: updatedProduct,
-          };
-        }
-      });
-
+      const updatedOrderItems = await Promise.all(
+        orderItems.map(async (item) => {
+          if (
+            item.product &&
+            item.product.quantity &&
+            item.qty > item.product.quantity
+          ) {
+            throw new Error("Quantity is not available");
+          } else {
+            const updatedProduct = item.product
+              ? {
+                  ...item.product,
+                  quantity: item.product.quantity - item.qty,
+                }
+              : undefined;
+            await updateProduct(updatedProduct).unwrap();
+            return {
+              ...item,
+              product: updatedProduct,
+            };
+          }
+        })
+      );
+      console.log("Hi");
       const newOrder: Order = {
         createdAt: new Date().toISOString(),
         orderStatus: "Pending...",
@@ -80,9 +82,8 @@ const OrderPage = () => {
         customerId: selectedCustomer?.id || "",
         orderItems: updatedOrderItems,
       };
-
       await createOrder(newOrder).unwrap();
-      dispatch(await clearCart());
+      dispatch(clearCart());
     } catch (error) {
       console.error(error);
     } finally {

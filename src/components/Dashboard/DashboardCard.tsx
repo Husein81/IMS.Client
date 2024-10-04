@@ -9,7 +9,12 @@ const DashboardCard: React.FC<Props> = ({ content }) => {
       <CardContent>
         <Box display="flex" justifyContent="space-between" py={"3px"}>
           {content.icon}
-          <Typography variant="h6">{content.title}</Typography>
+          <Typography
+            variant="h6"
+            sx={{ fontSize: { xs: 10, sm: 12, md: 16 } }}
+          >
+            {content.title}
+          </Typography>
         </Box>
         <Typography variant="h4">{content.value}</Typography>
       </CardContent>

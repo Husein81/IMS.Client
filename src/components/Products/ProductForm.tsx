@@ -197,10 +197,10 @@ const ProductForm: React.FC<Props> = ({ id, refetch: refetchAll }) => {
 
   const isFormData =
     formData.name === "" ||
-    formData.cost === 0 ||
-    formData.price === 0 ||
+    formData.cost < 1 ||
+    formData.price < 1 ||
     formData.currency === "" ||
-    formData.quantity === 0 ||
+    formData.quantity < 1 ||
     formData.categoryId === "" ||
     formData.supplierId === "";
 

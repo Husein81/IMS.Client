@@ -30,6 +30,7 @@ const SupplierPage = () => {
     page: pageModel.page + 1,
     pageSize: pageModel.pageSize,
   });
+  console.log(pageModel.page);
   return (
     <Container>
       <Header
@@ -40,7 +41,7 @@ const SupplierPage = () => {
         searchTermHandler={handleSearchTermChange}
       />
       <SupplierTable
-        suppliers={data!}
+        suppliers={data}
         pageModel={pageModel}
         setPageModel={setPageModel}
         refetch={refetch}

@@ -93,7 +93,11 @@ const SideBar = () => {
         onClick={item.onClick}
       >
         {item.icon}
-        <Typography variant="body1" color={colors.white[500]}>
+        <Typography
+          variant="body1"
+          sx={{ fontSize: { xs: 10, sm: 12, md: 14 } }}
+          color={colors.white[500]}
+        >
           {item.name}
         </Typography>
       </ListItem>
