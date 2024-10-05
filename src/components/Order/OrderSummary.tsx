@@ -3,6 +3,8 @@ import OrderItemList from "./OrderItemList";
 import { ColorSet } from "../../Theme";
 import { OrderItem } from "../../app/models/OrderItem";
 import { FC } from "react";
+import Loader from "../Other/Loader";
+import { Warning } from "@mui/icons-material";
 
 type Props = {
   colors: ColorSet;
@@ -27,9 +29,15 @@ const OrderSummary: FC<Props> = ({
         {orderItems && orderItems.length > 0 ? (
           <OrderItemList orderItems={orderItems} />
         ) : (
-          <Box textAlign={"center"}>
-            <Typography variant="h5" color="error">
-              No Ordered Items
+          <Box
+            alignItems={"center"}
+            display={"flex"}
+            justifyContent={"center"}
+            gap={1}
+          >
+            <Warning color="primary" />
+            <Typography variant="h5" color="primary">
+              No ordered items
             </Typography>
           </Box>
         )}
@@ -48,9 +56,9 @@ const OrderSummary: FC<Props> = ({
           variant="contained"
           fullWidth
           onClick={handleCheckout}
-          disabled={isLoadingCreate}
+          disabled={isLoadingCreate || orderItems.length === 0}
         >
-          {isLoadingCreate ? "Submitting..." : "Submit"}
+          {isLoadingCreate ? <Loader color="#fcfcfc" /> : "Submit"}
         </Button>
       </Paper>
     </Box>

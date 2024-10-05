@@ -15,7 +15,7 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../../app/redux/Slice/OrderSlice";
 import { Customer } from "../../app/models/Customer";
-import { Add, Cancel } from "@mui/icons-material";
+import { Add, Close } from "@mui/icons-material";
 
 interface Props {
   colors: ColorSet;
@@ -104,22 +104,24 @@ const OrderForm: React.FC<Props> = ({
                     sx={{ py: "12px" }}
                     fullWidth
                     onClick={handleSetCustomer}
-                  >
-                    <Add />
-                  </Button>
+                    startIcon={<Add />}
+                  ></Button>
                 </Box>
               </Grid>
             </Grid>
           ) : (
-            <Box display={"flex"} gap={1} alignItems={"center"}>
+            <Box
+              display={"flex"}
+              gap={1}
+              alignItems={"center"}
+              justifyContent={"center"}
+            >
               <Typography variant="h4">
-                Customer Name: {selectedCustomer?.name}
+                Customer Name:{" "}
+                <span style={{ color: "grey" }}>{selectedCustomer?.name}</span>
               </Typography>
-              <Box
-                className="cursor-pointer text-red-500"
-                onClick={cancelHandler}
-              >
-                <Cancel />
+              <Box className="cursor-pointer " onClick={cancelHandler}>
+                <Close color="primary" sx={{ my: 1 }} />
               </Box>
             </Box>
           )}

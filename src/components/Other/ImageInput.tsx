@@ -43,7 +43,7 @@ const ImageInput: FC<Props> = ({
         disabled={loadingUpload}
         onClick={handleImageSubmit}
       >
-        {loadingUpload ? <Loader color="#fcfcfc" style={{}} /> : "Upload"}
+        {loadingUpload ? <Loader color="#fcfcfc" /> : "Upload"}
       </Button>
     </Box>
   );

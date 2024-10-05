@@ -22,6 +22,7 @@ function App() {
     dispatch(loadUser() as any);
   }, [dispatch]);
 
+  console.log("userInfo", userInfo);
   return (
     <>
       <ThemeProvider theme={theme}>
